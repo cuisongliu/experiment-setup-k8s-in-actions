@@ -1,0 +1,38 @@
+# https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions
+name: 'Auto install k8s using sealos'
+description: 'Auto install k8s using sealos'
+author: 'cuisongliu'
+
+branding:
+  # https://actions-cool.github.io/github-action-branding/
+  icon: 'file'
+  color: 'blue'
+
+inputs:
+  type:
+    description: 'kubernetes type,support docker and containerd'
+    required: true
+    default: "labring/kubernetes-docker"
+
+  kubernetes-version:
+    description: 'kubernetes version'
+    required: true
+    default: "v1.24.0"
+
+  cluster-images:
+    description: 'sealos run cluster. ex labring/calico:v3.22.1.'
+    default: "labring/helm:v3.8.2 labring/calico:v3.24.1"
+
+
+
+
+#outputs:
+#  result:
+#    description: action result
+
+runs:
+  using: "composite"
+  steps:
+    - run: |
+
+      shell: bash
