@@ -1,4 +1,4 @@
-k8sRepo ?= labring/kubernetes
+k8sRepo ?= docker.io/labring/kubernetes
 k8sVersion ?= v1.24.0
 clusterImages ?=
 debug ?=
