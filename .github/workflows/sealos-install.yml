@@ -21,12 +21,12 @@ jobs:
       - name: Trace memory
         run: |
           free -m
-          
-      - name: Remove docker
-        run: |
-          sudo apt-get remove docker docker-engine docker.io containerd runc
-          sudo apt-get purge docker-ce docker-ce-cli containerd.io # docker-compose-plugin
-          sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
+
+#      - name: Remove docker
+#        run: |
+#          sudo apt-get remove docker docker-engine docker.io containerd runc
+#          sudo apt-get purge docker-ce docker-ce-cli containerd.io # docker-compose-plugin
+#          sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
 
       - name: Install sealos
         run: |
@@ -34,22 +34,21 @@ jobs:
           sudo apt update
           sudo apt install sealos
           sudo sealos version
-          
+
       - name: Install kubernetes
         run: |
-          #sudo -u root sealos run labring/kubernetes:v1.22.10  labring/calico:v3.22.1 --single
-          sudo -u root sealos run labring/kubernetes:v1.24.0  labring/calico:v3.24.1 --single
+          sudo -u root sealos run labring/kubernetes:v1.24.0  labring/calico:v3.24.1 --single --debug
 
       - name: Wait 30s for ready
         run: |
           sleep 40s
           sudo kubectl get nodes
-          
+
       - name: Wait 30s for get pods
         run: |
           sleep 30s
           sudo kubectl get nodes
           sudo kubectl get pods -A
-          
+
       - name: Trace memory
         run: free -m
