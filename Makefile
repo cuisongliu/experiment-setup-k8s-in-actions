@@ -18,8 +18,7 @@ install-sealos:
 
 install-k8s:
 	sudo -u root sealos run $(k8sRepo):$(k8sVersion) --single --debug
-	cat /var/lib/sealos/data/default/rootfs/scripts/check.sh
-
+	/var/lib/sealos/data/default/rootfs/opt/sealctl cri cgroup-driver --short
 
 taint-k8s:
 	sudo -u root kubectl taint node $NAME node-role.kubernetes.io/master-
