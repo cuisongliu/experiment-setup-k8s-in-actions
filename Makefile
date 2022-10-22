@@ -9,7 +9,7 @@ install-buildah:
 	chmod a+x "buildah"
 	sudo cp -a "buildah" /usr/bin
 
-install-sealos: install-buildah
+install-sealos:
 	echo "deb [trusted=yes] https://apt.fury.io/labring/ /" | sudo tee /etc/apt/sources.list.d/labring.list
 	sudo apt update
 	sudo apt install sealos
