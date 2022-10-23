@@ -45,7 +45,7 @@ jobs:
           free -m
 
       - name: Auto install k8s using sealos
-        uses: cuisongliu/sealos-action@v0.0.1
+        uses: labring/sealos-action@v0.0.1
         with:
           image: labring/kubernetes:v1.24.0
           sealosVersion: 4.1.3

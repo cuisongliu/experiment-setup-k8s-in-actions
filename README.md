@@ -13,7 +13,7 @@ See [action.yml](action.yml)
 ```yaml
 steps:
 - name: Auto install k8s using sealos
-  uses: cuisongliu/experiment-setup-k8s-in-actions@v0.0.1-rc2
+  uses: labring/experiment-setup-k8s-in-actions@v0.0.1-rc2
   with:
     image: labring/kubernetes:v1.24.0
     sealosVersion: 4.1.3
