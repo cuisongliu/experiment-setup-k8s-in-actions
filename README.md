@@ -1,20 +1,25 @@
-# experiment-install-sealos-in-actions
 
-## Installers
+## Intro
+
+We need to create a temporary kubernetes cluster in github actions for running e2e tests in actions.
+
+## Installers comparison
 
 - sealos: 
-  - 未内置 helm 
-  - 速度较慢: 2m40s
-  - 支持集群镜像
-  - 需要使用专用版镜像支持 docker，不会自动安装 docker
-  - 内存占用较大：1750M - 500M = 1250M
-- kubekey
-  - 需要手动安装 socat, ipset 等（不过，命令行有预检提示）
-  - 内置 helm 等
-  - 支持 docker，可自动安装 docker
-  - 速度较慢: 2m20s
-  - 内存占用较小： 1350M - 500M = 850M
+  - Helm is not built in
+  - Supports `cluster image`, it is very convenient to install helm, ingress, cert-manager, @see https://sealos.io
+  - Containerd is used, and a dedicated version of the image is required to support docker, and docker will not be installed automatically
+  - Large memory usage: 1750M - 500M = 1250M
+  - Slower: 2m40s
+
 - k3s
-  - 内置 helm 等
-  - 速度快：<1m
-  - 内存占用小： 1200M - 500M = 700M 
+  - Built-in helm
+  - High speed: <1m
+  - Small memory footprint: 1200M - 500M = 700M 
+
+- kubekey
+  - Need to manually install socat, conntrack, ebtables, ipset and other dependencies
+  - Built-in helm
+  - Friendly support for docker, automatic installation of docker
+  - Slower: 2m20s
+  - Small memory footprint: 1350M - 500M = 850M
