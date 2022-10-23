@@ -3,7 +3,7 @@ KubernetesVersion ?= v1.24.0
 SealosVersion?= 4.1.3
 ClusterImages ?=
 Debug ?=true
-
+UseBuildah ?=false
 
 get-debug:
 ifeq (false, $(Debug))
@@ -12,19 +12,18 @@ else
 DEBUG_FLAG="--debug"
 endif
 
+buildah:
+	$(call uninstallBuildah)
+ifeq (true, $(UseBuildah))
+	$(call installBuildah)
+else
+endif
+
 
 test-flag: get-debug
 	echo $(DEBUG_FLAG)
 
-
-install-buildah:
-	$(call uninstallBuildah)
-	wget -qO "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
-	chmod a+x "buildah"
-	sudo cp -a "buildah" /usr/bin
-
-install-sealos:
-	$(call uninstallBuildah)
+install-sealos: buildah
 	$(call uninstallCRI)
 	$(call downloadBin,sealos,$(SealosVersion))
 
@@ -36,13 +35,19 @@ run-k8s: get-debug
 
 #run-images: get-debug
 
-define downloadBin
-	@sudo wget  https://github.com/labring/sealos/releases/download/v$(2)/sealos_$(2)_linux_amd64.tar.gz
-    @sudo tar -zxvf sealos_$(2)_linux_amd64.tar.gz $(1) &&  chmod +x $(1) && mv $(1) /usr/bin
+define installBuildah
+	@wget -qO "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
+    @chmod a+x buildah
+    @sudo mv buildah /usr/bin
 endef
 
 define uninstallBuildah
 	@sudo apt remove buildah -y || true
+endef
+
+define downloadBin
+	@sudo wget  https://github.com/labring/sealos/releases/download/v$(2)/sealos_$(2)_linux_amd64.tar.gz
+    @sudo tar -zxvf sealos_$(2)_linux_amd64.tar.gz $(1) &&  chmod +x $(1) && mv $(1) /usr/bin
 endef
 
 define uninstallCRI

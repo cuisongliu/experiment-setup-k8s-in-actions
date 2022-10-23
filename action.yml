@@ -29,7 +29,7 @@ inputs:
 
   clusterImages:
     description: 'sealos run cluster. ex labring/calico:v3.22.1.'
-    default: "labring/helm:v3.8.2 labring/calico:v3.24.1"
+    default: "labring/helm:v3.8.2,labring/calico:v3.24.1"
 
 
 

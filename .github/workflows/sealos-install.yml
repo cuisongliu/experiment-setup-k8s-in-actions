@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       KubernetesRepo: docker.io/labring/kubernetes
+      UseBuildah: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
