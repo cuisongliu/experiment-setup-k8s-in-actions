@@ -3,8 +3,10 @@ KubernetesVersion ?= v1.24.0
 ClusterImages ?=
 Debug ?=
 
-install-buildah:
+uninstall-buildah:
 	sudo apt remove buildah -y || true
+
+install-buildah:
 	wget -qO "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
 	chmod a+x "buildah"
 	sudo cp -a "buildah" /usr/bin
