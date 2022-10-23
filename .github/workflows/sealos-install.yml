@@ -30,7 +30,7 @@ jobs:
         run: |
           sudo UseBuildah=true make install-sealos
           sudo KubernetesRepo=docker.io/labring/kubernetes make run-k8s
-
+          sudo sealos run labring/helm:v3.8.2 labring/calico:v3.24.1 -f --debug
 
       - name: Trace memory
         run: free -m
@@ -53,7 +53,7 @@ jobs:
           debug: true
 
       - name: Run app image
-        run:  sealos run labring/helm:v3.8.2 labring/calico:v3.24.1 -f --debug
+        run:  sudo sealos run labring/helm:v3.8.2 labring/calico:v3.24.1 -f --debug
 
       - name: Trace memory
         run: free -m

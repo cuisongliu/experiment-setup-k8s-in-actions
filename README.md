@@ -20,7 +20,7 @@ steps:
     useBuildah: false
     debug: true
 - name: Run app image
-  run:  sealos run labring/helm:v3.8.2 labring/calico:v3.24.1 -f --debug
+  run:  sudo sealos run labring/helm:v3.8.2 labring/calico:v3.24.1 -f --debug
 ```
 
 ## Installers comparison
