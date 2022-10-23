@@ -31,7 +31,8 @@ install-sealctl:
 
 run-k8s: get-debug
 	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single $(DEBUG_FLAG)
-	$(call tainitNode)
+	nodeNameVal=$(call nodeName)
+	$(call tainitNode,$(nodeNameVal))
 
 define installBuildah
 	@echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
@@ -59,9 +60,12 @@ endef
 
 define tainitNode
 	@sudo kubectl get nodes
-	@NodeName=$(shell kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
-	@echo "NodeName=$(NodeName)"
-	@sudo -u root kubectl taint node $(NodeName) node-role.kubernetes.io/master-
-	@sudo -u root kubectl kubectl taint node $(NodeName) node-role.kubernetes.io/control-plane-
+	@echo "NodeName=$(1)"
+	@sudo -u root kubectl taint node $(1) node-role.kubernetes.io/master-
+	@sudo -u root kubectl kubectl taint node $(1) node-role.kubernetes.io/control-plane-
 	@sudo kubectl get nodes
+endef
+
+define nodeName
+	@kubectl get nodes -ojsonpath='{.items[0].metadata.name}'
 endef
