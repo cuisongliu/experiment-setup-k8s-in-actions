@@ -16,6 +16,24 @@ on:
   workflow_dispatch:
 
 jobs:
+  sealos-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Trace memory
+        run: |
+          free -m
+
+      - name: Install k8s on sealos
+        run: |
+          sudo UseBuildah=true make install-sealos
+          sudo KubernetesRepo=docker.io/labring/kubernetes make run-k8s
+
+
+      - name: Trace memory
+        run: free -m
   sealos:
     runs-on: ubuntu-latest
     steps:
