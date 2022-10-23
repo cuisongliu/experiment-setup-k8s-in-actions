@@ -28,8 +28,6 @@ jobs:
 
       - name: Install k8s on sealos
         run: |
-          sudo make uninstall-buildah
-          sudo make install-buildah
           sudo make install-sealos
           sudo KubernetesRepo=docker.io/labring/kubernetes make install-k8s
 
