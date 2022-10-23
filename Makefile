@@ -14,10 +14,9 @@ endif
 
 buildah:
 	$(call uninstallBuildah)
-ifeq (true, $(UseBuildah))
-	$(call installBuildah)
-else
-endif
+	ifeq ("true", $(UseBuildah))
+		$(call installBuildah)
+	endif
 
 
 test-flag: get-debug
