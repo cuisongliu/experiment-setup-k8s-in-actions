@@ -13,14 +13,14 @@ See [action.yml](action.yml)
 ```yaml
 steps:
 - name: Auto install k8s using sealos
-  uses: cuisongliu/experiment-setup-k8s-in-actions@v0.0.1-rc1
+  uses: cuisongliu/experiment-setup-k8s-in-actions@v0.0.1-rc2
   with:
-    rootfsImage: labring/kubernetes:v1.24.0
+    image: labring/kubernetes:v1.24.0
     sealosVersion: 4.1.3
-    useBuildah: false
+    buildah: false
     debug: true
 - name: Run app image
-  run:  sudo sealos run labring/helm:v3.8.2 labring/calico:v3.24.1 -f --debug
+  run:  sudo sealos run labring/helm:v3.8.2 labring/calico:v3.24.1  --debug
 ```
 
 ## Installers comparison
