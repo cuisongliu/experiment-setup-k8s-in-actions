@@ -6,5 +6,6 @@ do
   NUM=$(kubectl get pod --field-selector=status.phase!=Running,status.phase!=Completed -A | grep -v RESTARTS | wc -l)
   sleep 3
 done
+kubectl get pod -A
 
 
