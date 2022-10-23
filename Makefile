@@ -25,7 +25,7 @@ uninstall-cri:
 	sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
 
 install-k8s:
-	sudo -u root sealos run $(k8sRepo):$(k8sVersion) --single --debug
+	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single --debug
 	#sudo -u root sealctl cri socket
 
 taint-k8s:
