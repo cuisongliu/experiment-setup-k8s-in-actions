@@ -35,7 +35,8 @@ run-k8s: get-debug
 	$(call getNodes)
 
 define installBuildah
-	@wget -O "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
+	@echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
+	@wget -qO "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
     @chmod a+x buildah
     @sudo mv buildah /usr/bin
 endef
@@ -45,7 +46,8 @@ define uninstallBuildah
 endef
 
 define downloadBin
-	@sudo wget  https://github.com/labring/sealos/releases/download/v$(2)/sealos_$(2)_linux_amd64.tar.gz
+	@echo "download $(1) in https://github.com/labring/sealos/releases/download/v$(2)/sealos_$(2)_linux_amd64.tar.gz"
+	@sudo wget -qO- https://github.com/labring/sealos/releases/download/v$(2)/sealos_$(2)_linux_amd64.tar.gz
     @sudo tar -zxvf sealos_$(2)_linux_amd64.tar.gz $(1) &&  chmod +x $(1) && mv $(1) /usr/bin
 endef
 
@@ -60,7 +62,8 @@ define getNodes
 endef
 
 define tainitNode
-	@NodeName=$(kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
+	NodeName=$(shell kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
+	@echo "NodeName=$(NodeName)"
 	@sudo -u root kubectl taint node $(NodeName) node-role.kubernetes.io/master-
 	@sudo -u root kubectl kubectl taint node $(NodeName) node-role.kubernetes.io/control-plane-
 endef
