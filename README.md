@@ -27,7 +27,7 @@ steps:
   - Helm is not built in
   - Supports `cluster image`, it is very convenient to install helm, ingress, cert-manager, @see https://sealos.io
   - Containerd is used, and a dedicated version of the image is required to support docker, and docker will not be installed automatically
-  - Large memory usage: 1750M - 500M = 1250M
+  - Large memory usage: 1062M 
   - Slower: 2m40s
 
 - k3s
