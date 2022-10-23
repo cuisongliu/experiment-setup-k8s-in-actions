@@ -31,8 +31,8 @@ install-sealctl:
 
 run-k8s: get-debug
 	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single $(DEBUG_FLAG)
-
-#run-images: get-debug
+	$(call tainitNode)
+	$(call getNodes)
 
 define installBuildah
 	@wget -O "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
