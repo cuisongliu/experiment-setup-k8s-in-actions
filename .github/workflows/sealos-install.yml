@@ -17,8 +17,6 @@ on:
 jobs:
   sealos:
     runs-on: ubuntu-latest
-    env:
-      KubernetesRepo: docker.io/labring/kubernetes
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -29,8 +27,8 @@ jobs:
 
       - name: Install k8s on sealos
         run: |
-          sudo make install-sealos
-          sudo UseBuildah=true make run-k8s
+          sudo UseBuildah=true make install-sealos
+          sudo KubernetesRepo: docker.io/labring/kubernetes make run-k8s
 
 
       - name: Trace memory
