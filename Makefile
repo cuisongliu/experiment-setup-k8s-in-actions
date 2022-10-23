@@ -15,10 +15,14 @@ install-sealos:
 	sudo apt install sealos
 	sudo sealos version
 
+install-sealctl:
+	sudo wget  https://github.com/labring/sealos/releases/download/v4.1.3/sealos_4.1.3_linux_amd64.tar.gz
+	sudo tar -zxvf sealos_4.1.3_linux_amd64.tar.gz sealctl &&  chmod +x sealctl && mv sealctl /usr/bin
+
 
 install-k8s:
-	sudo -u root sealos run $(k8sRepo):$(k8sVersion) --single --debug
-	/var/lib/sealos/data/default/rootfs/opt/sealctl cri cgroup-driver --short
+	#sudo -u root sealos run $(k8sRepo):$(k8sVersion) --single --debug
+	sudo -u root sealctl cri socket
 
 taint-k8s:
 	sudo -u root kubectl taint node $NAME node-role.kubernetes.io/master-

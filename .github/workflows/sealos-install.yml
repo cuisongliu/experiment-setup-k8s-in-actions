@@ -28,7 +28,7 @@ jobs:
 
       - name: Install k8s on sealos
         run: |
-          sudo make install-sealos
+          sudo make install-sealctl
           sudo make install-k8s
 
 
