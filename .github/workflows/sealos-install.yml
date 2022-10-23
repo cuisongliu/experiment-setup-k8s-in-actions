@@ -28,7 +28,7 @@ jobs:
       - name: Install k8s on sealos
         run: |
           sudo UseBuildah=true make install-sealos
-          sudo KubernetesRepo: docker.io/labring/kubernetes make run-k8s
+          sudo KubernetesRepo=docker.io/labring/kubernetes make run-k8s
 
 
       - name: Trace memory
