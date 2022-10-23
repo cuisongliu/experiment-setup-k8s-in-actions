@@ -18,9 +18,14 @@ ifeq (true, $(UseBuildah))
 	$(call installBuildah)
 endif
 
+define test
+node=aaa
+@echo $(1)
+endef
 
 test-flag: get-debug
 	echo $(DEBUG_FLAG)
+	$(call test,ccc)
 
 install-sealos: buildah
 	$(call uninstallCRI)
@@ -29,9 +34,11 @@ install-sealos: buildah
 install-sealctl:
 	$(call downloadBin,sealctl,$(SealosVersion))
 
+
 run-k8s: get-debug
 	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single $(DEBUG_FLAG)
-	$(call tainitNode)
+	var1 := $(call func1)
+	$(call tainitNode,$(call nodeNameFun))
 
 define installBuildah
 	@echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
@@ -59,10 +66,13 @@ endef
 
 define tainitNode
 	@sudo kubectl get nodes
-	NodeName:=$(shell sudo kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
-	@echo "NodeName=$(NodeName)"
-	@sudo -u root kubectl taint node $(NodeName) node-role.kubernetes.io/master-
-	@sudo -u root kubectl taint node $(NodeName) node-role.kubernetes.io/control-plane-
+	@echo "NodeName=$(1)"
+	@sudo -u root kubectl taint node $(1) node-role.kubernetes.io/master-
+	@sudo -u root kubectl taint node $(1) node-role.kubernetes.io/control-plane-
 	@sudo kubectl get nodes
 endef
 
+
+define nodeNameFun
+	@sudo kubectl get nodes -ojsonpath='{.items[0].metadata.name}'
+endef
