@@ -31,7 +31,7 @@ install-sealctl:
 
 run-k8s: get-debug
 	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single $(DEBUG_FLAG)
-	nodeNameVal=$(call nodeName)
+	nodeNameVal=$(shell kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
 	$(call tainitNode,$(nodeNameVal))
 
 define installBuildah
@@ -66,6 +66,3 @@ define tainitNode
 	@sudo kubectl get nodes
 endef
 
-define nodeName
-	@kubectl get nodes -ojsonpath='{.items[0].metadata.name}'
-endef
