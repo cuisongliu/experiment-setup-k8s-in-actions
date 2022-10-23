@@ -6,12 +6,12 @@ Debug ?=
 uninstall-buildah:
 	sudo apt remove buildah -y || true
 
-install-buildah:
+install-buildah: uninstall-buildah
 	wget -qO "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
 	chmod a+x "buildah"
 	sudo cp -a "buildah" /usr/bin
 
-install-sealos: uninstall-buildah install-buildah uninstall-cri
+install-sealos: uninstall-buildah uninstall-cri
 	sudo wget  https://github.com/labring/sealos/releases/download/v4.1.3/sealos_4.1.3_linux_amd64.tar.gz
 	sudo tar -zxvf sealos_4.1.3_linux_amd64.tar.gz sealos &&  chmod +x sealos && mv sealos /usr/bin
 
