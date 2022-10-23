@@ -35,7 +35,7 @@ run-k8s: get-debug
 #run-images: get-debug
 
 define installBuildah
-	@wget -qO "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
+	@wget -O "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
     @chmod a+x buildah
     @sudo mv buildah /usr/bin
 endef
