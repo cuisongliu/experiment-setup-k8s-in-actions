@@ -37,7 +37,7 @@ install-sealctl:
 
 run-k8s: get-debug
 	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single $(DEBUG_FLAG)
-	NODENAME=$(call nodeNameFun)
+	NODENAME:=$(call nodeNameFun)
 	$(call tainitNode,$(NODENAME))
 
 define installBuildah
