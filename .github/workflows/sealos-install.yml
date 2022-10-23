@@ -28,8 +28,9 @@ jobs:
 
       - name: Install k8s on sealos
         run: |
-          sudo make install-sealctl
-          sudo make install-k8s
+#          sudo make uninstall-cri
+          sudo make install-sealos
+          sudo KubernetesRepo=docker.io/labring/kubernetes make install-k8s
 
 
       - name: Trace memory

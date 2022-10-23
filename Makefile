@@ -1,7 +1,7 @@
-k8sRepo ?= docker.io/labring/kubernetes-docker
-k8sVersion ?= v1.24.0
-clusterImages ?=
-debug ?=
+KubernetesRepo ?= docker.io/labring/kubernetes
+KubernetesVersion ?= v1.24.0
+ClusterImages ?=
+Debug ?=
 
 install-buildah:
 	sudo apt remove buildah -y || true
@@ -10,19 +10,21 @@ install-buildah:
 	sudo cp -a "buildah" /usr/bin
 
 install-sealos:
-	echo "deb [trusted=yes] https://apt.fury.io/labring/ /" | sudo tee /etc/apt/sources.list.d/labring.list
-	sudo apt update
-	sudo apt install sealos
-	sudo sealos version
+	sudo wget  https://github.com/labring/sealos/releases/download/v4.1.3/sealos_4.1.3_linux_amd64.tar.gz
+	sudo tar -zxvf sealos_4.1.3_linux_amd64.tar.gz sealos &&  chmod +x sealos && mv sealos /usr/bin
 
 install-sealctl:
 	sudo wget  https://github.com/labring/sealos/releases/download/v4.1.3/sealos_4.1.3_linux_amd64.tar.gz
 	sudo tar -zxvf sealos_4.1.3_linux_amd64.tar.gz sealctl &&  chmod +x sealctl && mv sealctl /usr/bin
 
+uninstall-cri:
+	sudo apt-get remove docker docker-engine docker.io containerd runc
+	sudo apt-get purge docker-ce docker-ce-cli containerd.io # docker-compose-plugin
+	sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
 
 install-k8s:
-	#sudo -u root sealos run $(k8sRepo):$(k8sVersion) --single --debug
-	sudo -u root sealctl cri socket
+	sudo -u root sealos run $(k8sRepo):$(k8sVersion) --single --debug
+	#sudo -u root sealctl cri socket
 
 taint-k8s:
 	sudo -u root kubectl taint node $NAME node-role.kubernetes.io/master-
