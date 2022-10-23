@@ -32,7 +32,6 @@ install-sealctl:
 run-k8s: get-debug
 	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single $(DEBUG_FLAG)
 	$(call tainitNode)
-	$(call getNodes)
 
 define installBuildah
 	@echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
@@ -57,13 +56,12 @@ define uninstallCRI
     @sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
 endef
 
-define getNodes
-	@sudo kubectl get nodes
-endef
 
 define tainitNode
-	NodeName=$(shell kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
+	@sudo kubectl get nodes
+	@NodeName=$(shell kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
 	@echo "NodeName=$(NodeName)"
 	@sudo -u root kubectl taint node $(NodeName) node-role.kubernetes.io/master-
 	@sudo -u root kubectl kubectl taint node $(NodeName) node-role.kubernetes.io/control-plane-
+	@sudo kubectl get nodes
 endef
