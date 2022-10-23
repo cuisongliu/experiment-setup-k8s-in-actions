@@ -59,7 +59,7 @@ endef
 
 define tainitNode
 	@sudo kubectl get nodes
-	@NodeName=$(shell sudo kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
+	NodeName:=$(shell sudo kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
 	@echo "NodeName=$(NodeName)"
 	@sudo -u root kubectl taint node $(NodeName) node-role.kubernetes.io/master-
 	@sudo -u root kubectl taint node $(NodeName) node-role.kubernetes.io/control-plane-
