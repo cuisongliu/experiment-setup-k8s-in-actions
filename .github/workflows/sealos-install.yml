@@ -30,7 +30,7 @@ jobs:
       - name: Install k8s on sealos
         run: |
           sudo make install-sealos
-          sudo make install-k8s
+          sudo make run-k8s
 
 
       - name: Trace memory

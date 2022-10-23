@@ -1,36 +1,62 @@
 KubernetesRepo ?= docker.io/labring/kubernetes
 KubernetesVersion ?= v1.24.0
+SealosVersion?= 4.1.3
 ClusterImages ?=
-Debug ?=
+Debug ?=true
 
-uninstall-buildah:
-	sudo apt remove buildah -y || true
 
-install-buildah: uninstall-buildah
+get-debug:
+ifeq (false, $(Debug))
+DEBUG_FLAG=""
+else
+DEBUG_FLAG="--debug"
+endif
+
+
+test-flag: get-debug
+	echo $(DEBUG_FLAG)
+
+
+install-buildah:
+	$(call uninstallBuildah)
 	wget -qO "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
 	chmod a+x "buildah"
 	sudo cp -a "buildah" /usr/bin
 
-install-sealos: uninstall-buildah uninstall-cri
-	sudo wget  https://github.com/labring/sealos/releases/download/v4.1.3/sealos_4.1.3_linux_amd64.tar.gz
-	sudo tar -zxvf sealos_4.1.3_linux_amd64.tar.gz sealos &&  chmod +x sealos && mv sealos /usr/bin
+install-sealos:
+	$(call uninstallBuildah)
+	$(call uninstallCRI)
+	$(call downloadBin,sealos,$(SealosVersion))
 
 install-sealctl:
-	sudo wget  https://github.com/labring/sealos/releases/download/v4.1.3/sealos_4.1.3_linux_amd64.tar.gz
-	sudo tar -zxvf sealos_4.1.3_linux_amd64.tar.gz sealctl &&  chmod +x sealctl && mv sealctl /usr/bin
+	$(call downloadBin,sealctl,$(SealosVersion))
 
-uninstall-cri:
-	sudo apt-get remove docker docker-engine docker.io containerd runc
-	sudo apt-get purge docker-ce docker-ce-cli containerd.io # docker-compose-plugin
-	sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
+run-k8s: get-debug
+	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single $(DEBUG_FLAG)
 
-install-k8s:
-	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single --debug
-	#sudo -u root sealctl cri socket
+#run-images: get-debug
 
-taint-k8s:
-	sudo -u root kubectl taint node $NAME node-role.kubernetes.io/master-
-	sudo -u root kubectl kubectl taint node $NAME node-role.kubernetes.io/control-plane-
+define downloadBin
+	@sudo wget  https://github.com/labring/sealos/releases/download/v$(2)/sealos_$(2)_linux_amd64.tar.gz
+    @sudo tar -zxvf sealos_$(2)_linux_amd64.tar.gz $(1) &&  chmod +x $(1) && mv $(1) /usr/bin
+endef
 
-nodes:
-	sudo kubectl get nodes
+define uninstallBuildah
+	@sudo apt remove buildah -y || true
+endef
+
+define uninstallCRI
+	@sudo apt-get remove docker docker-engine docker.io containerd runc
+    @sudo apt-get purge docker-ce docker-ce-cli containerd.io # docker-compose-plugin
+    @sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
+endef
+
+define getNodes
+	@sudo kubectl get nodes
+endef
+
+define tainitNode
+	NodeName=$(kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
+	@sudo -u root kubectl taint node $NodeName node-role.kubernetes.io/master-
+	@sudo -u root kubectl kubectl taint node $NodeName node-role.kubernetes.io/control-plane-
+endef
