@@ -9,10 +9,10 @@ branding:
   color: 'blue'
 
 inputs:
-  k8sImageRepo:
-    description: 'kubernetes type,support docker and containerd'
+  rootfsImage:
+    description: 'rootfs image,support docker and containerd'
     required: true
-    default: "labring/kubernetes-docker"
+    default: "labring/kubernetes:v1.24.0"
 
   sealosVersion:
     description: 'kubernetes type,support docker and containerd'
@@ -22,15 +22,13 @@ inputs:
     description: 'useBuildah for sealos'
     default: "false"
 
-  k8sVersion:
-    description: 'kubernetes version'
-    required: true
-    default: "v1.24.0"
-
   clusterImages:
     description: 'sealos run cluster. ex labring/calico:v3.22.1.'
     default: "labring/helm:v3.8.2,labring/calico:v3.24.1"
 
+  debug:
+    description: 'sealos run enable debug'
+    default: "false"
 
 
 
@@ -42,5 +40,7 @@ runs:
   using: "composite"
   steps:
     - run: |
-
+        sudo UseBuildah=${{ inputs.useBuildah }} SealosVersion=${{ inputs.sealosVersion }} make install-sealos
+        sudo RootfsImage=${{ inputs.rootfsImage }} Debug=${{ inputs.debug }} make run-k8s
       shell: bash
+      id: default

@@ -1,5 +1,4 @@
-KubernetesRepo ?= docker.io/labring/kubernetes
-KubernetesVersion ?= v1.24.0
+RootfsImage ?= docker.io/labring/kubernetes:v1.24.0
 SealosVersion?= 4.1.3
 ClusterImages ?=
 Debug ?=true
@@ -36,7 +35,7 @@ install-sealctl:
 
 
 run-k8s: get-debug
-	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single $(DEBUG_FLAG)
+	sudo -u root sealos run $(RootfsImage) --single $(DEBUG_FLAG)
 	$(call callShell,tainit_node.sh)
 	$(call callShell,print_pods.sh)
 
