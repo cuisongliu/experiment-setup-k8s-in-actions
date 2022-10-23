@@ -38,7 +38,7 @@ install-sealctl:
 run-k8s: get-debug
 	sudo -u root sealos run $(KubernetesRepo):$(KubernetesVersion) --single $(DEBUG_FLAG)
 	NODENAME=$(sudo kubectl get nodes -ojsonpath='{.items[0].metadata.name}')
-	$(call tainitNode,$NODENAME)
+	$(call tainitNode,${NODENAME})
 
 define installBuildah
 	@echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
