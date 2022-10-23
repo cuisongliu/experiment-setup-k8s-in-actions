@@ -14,7 +14,7 @@ endif
 
 buildah:
 	$(call uninstallBuildah)
-	ifeq ("true", $(UseBuildah))
+	ifeq (true, $(UseBuildah))
 		$(call installBuildah)
 	endif
 
