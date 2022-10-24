@@ -15,7 +15,7 @@ inputs:
     default: "labring/kubernetes:v1.24.0"
 
   sealosVersion:
-    description: 'kubernetes type,support docker and containerd'
+    description: 'sealos release version'
     default: "4.1.3"
 
   buildah:

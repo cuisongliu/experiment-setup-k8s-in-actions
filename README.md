@@ -26,3 +26,18 @@ steps:
 ## Installers comparison
 
 sealos:  Supports `cluster image`, it is very convenient to install helm, ingress, cert-manager, @see https://sealos.io
+
+
+## ChangeLog
+
+### v0.0.1
+
+1. support sealos run k8s and app in action
+2. support install buildah param
+
+## Feature
+
+1. support sealos url,not release version
+2. get nodeIP
+3. disable k8s
+4. support sealctl
