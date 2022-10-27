@@ -40,3 +40,5 @@ sealos:  Supports `cluster image`, it is very convenient to install helm, ingres
 1. support sealos,sealctl (url,file,oci),not release version
 2. get nodeIP
 3. disable k8s
+4. action build cluster-image
+5. action run cluster-image
