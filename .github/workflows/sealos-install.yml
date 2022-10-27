@@ -30,6 +30,7 @@ jobs:
         run: |
           sudo buildah version
           sudo UseBuildah=true make install-sealos
+          sudo buildah version
           sudo KubernetesRepo=docker.io/labring/kubernetes make run-k8s
           sudo sealos run  labring/helm:v3.8.2 labring/calico:v3.24.1 --debug
       - name: Trace memory
