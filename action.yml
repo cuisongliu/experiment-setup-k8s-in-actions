@@ -63,7 +63,7 @@ runs:
   steps:
     - run: |
         sudo mkdir -p ../.sealos-action
-        sudo cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.2-rc1/* ../.sealos-action
+        sudo cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.2-rc1/.sealos-action* ../.sealos-action/
         bash $RUNNER_WORKSPACE/.sealos-action/.sealos-action.sh
       shell: bash
       id: default
