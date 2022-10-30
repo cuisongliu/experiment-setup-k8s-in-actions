@@ -41,7 +41,7 @@ readonly DEBUG=${debug:-}
     version)
   	  sudo -u root sealos version
   	  ;;
-  	image)
+  	images)
   	  sudo -u root sealos images
   	  ;;
     *)

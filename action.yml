@@ -35,6 +35,10 @@ inputs:
     description: 'sealos run enable debug'
     default: "false"
 
+  working-directory:
+    description: "Directory to run `sealos build` from, if not project root"
+    default: "."
+
 
 
 #outputs:

@@ -25,7 +25,6 @@ steps:
 
 | Name | Description                              | Default                      |
 | --- |------------------------------------------|------------------------------|
-| `type` | sealos command type, support `run,build` | `run`                        |
 | `image` | kubernetes rootfs image                  | `labring/kubernetes:v1.24.0` |
 | `sealosVersion` | sealos version                           | `4.1.3`                      |
 | `buildah` | install buildah to /usr/bin              | `false`                      |
@@ -50,3 +49,4 @@ sealos:  Supports `cluster image`, it is very convenient to install helm, ingres
 3. disable k8s
 4. action build cluster-image
 5. action run cluster-image
+6. support `working-directory`
