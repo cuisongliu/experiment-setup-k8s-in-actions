@@ -17,7 +17,7 @@ inputs:
   image:
     description: 'rootfs image,support docker and containerd'
     required: false
-    default: "labring/kubernetes:v1.24.0"
+    default: "docker.io/labring/kubernetes:v1.24.0"
 
   sealosVersion:
     description: 'sealos release version'
@@ -46,6 +46,6 @@ runs:
   steps:
     - run: |
         sudo UseBuildah=${{ inputs.buildah }} UseSealctl=${{ inputs.sealctl }} SealosVersion=${{ inputs.sealosVersion }} make install-sealos
-        sudo RootfsImage=${{ inputs.image }} Debug=${{ inputs.debug }} make run-k8s
+        sudo Image=${{ inputs.image }} Debug=${{ inputs.debug }} CmdOpts=run make cmd
       shell: bash
       id: default
