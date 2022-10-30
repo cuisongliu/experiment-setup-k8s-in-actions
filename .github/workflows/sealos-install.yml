@@ -41,12 +41,12 @@ jobs:
         working-directory: test/build-dockerfile
         run: |
           sudo cp ../../.sealos-action.sh .
-          sudo username=${{ github.repository_owner }} registry=ghcr.io image=testactionimage:dockerfile cmd=build bash .sealos-action.sh
+          sudo repo=${{ github.repository_owner }} registry=ghcr.io image=testactionimage:dockerfile cmd=build bash .sealos-action.sh
       - name: Build sealos image by kubefile
         working-directory: test/build-kubefile
         run: |
           sudo cp ../../.sealos-action.sh .
-          sudo username=${{ github.repository_owner }} registry=ghcr.io image=testactionimage:kubefile cmd=build debug=true bash .sealos-action.sh
+          sudo repo=${{ github.repository_owner }} registry=ghcr.io image=testactionimage:kubefile cmd=build debug=true bash .sealos-action.sh
 
       - name: Run images
         run: |
