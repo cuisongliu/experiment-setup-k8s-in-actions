@@ -33,6 +33,8 @@ jobs:
           buildah: false
           debug: true
           sealctl: true
+        run: |
+          env
       - name: Auto install k8s using sealos
         uses: labring/sealos-action@v0.0.2-rc2
         with:
