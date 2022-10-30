@@ -4,6 +4,12 @@ ClusterImages ?=
 Debug ?=true
 UseBuildah ?=false
 UseSealctl ?=false
+Username ?=
+Password ?=
+Registry ?=
+BuildImage ?=
+BuildPlatform ?= linux/amd64
+CmdOpts ?=version
 
 get-debug:
 ifeq (false, $(Debug))
@@ -23,24 +29,49 @@ ifeq (true, $(UseSealctl))
 	$(call downloadBin,sealctl,$(SealosVersion))
 endif
 
-define test
-node=aaa
+define test1
 @echo $(1)
+$(call test2,cccc)
 endef
 
+define test2
+@echo $(1)
+endef
 test-flag: get-debug
 	echo $(DEBUG_FLAG)
-	$(call test,ccc)
+	$(call test1,ccc)
 
 install-sealos: buildah sealctl
 	$(call uninstallCRI)
 	$(call downloadBin,sealos,$(SealosVersion))
 
 
-run-k8s: get-debug
+cmd: get-debug
+	$(call cmdFun,)
+
+define cmdFun
+switch $(1) {
+case "run":
 	sudo -u root sealos run $(RootfsImage) --single $(DEBUG_FLAG)
-	$(call callShell,tainit_node.sh)
-	$(call callShell,print_pods.sh)
+    $(call callShell,tainit_node.sh)
+    $(call callShell,print_pods.sh)
+case "login":
+	sudo -u root sealos login $(Registry) -u $(Username) -p $(Password) $(DEBUG_FLAG)
+case "build":
+	[[ -s Dockerfile ]] && Kubefile="Dockerfile" || Kubefile="Kubefile"
+	sudo -u root sealos build -t $(BuildImage) --platform $(BuildPlatform) -f $(Kubefile)  . $(DEBUG_FLAG)
+case "push":
+	sudo -u root sealos push $(RootfsImage) $(DEBUG_FLAG)
+case "version":
+	sudo -u root sealos version
+default:
+	echo "unknown cmd"
+	exit 1
+}
+endef
+
+cmd: get-debug
+
 
 define callShell
 	@echo "callShell $(1)"

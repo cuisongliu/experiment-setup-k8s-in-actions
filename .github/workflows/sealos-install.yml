@@ -26,13 +26,25 @@ jobs:
         run: |
           free -m
 
-      - name: Install k8s on sealos
+      - name: Install k8s on sealos version
         run: |
-          sudo buildah version --json
           sudo UseBuildah=true UseSealctl=true make install-sealos
-          sudo buildah version --json
-          sudo KubernetesRepo=docker.io/labring/kubernetes make run-k8s
-          sudo sealos run  labring/helm:v3.8.2 labring/calico:v3.24.1 --debug
+          sudo Username= Password= Registry= make cmd
+
+      - name: Login sealos
+        run: |
+          sudo Username=${{ github.repository_owner }} Password=${{ secrets.GH_TOKEN }} Registry=ghcr.io CmdOpts=login make cmd
+
+      - name: Build sealos image
+        working-directory: test/build-dockerfile
+        run: |
+          sudo BuildImage=ghcr.io/${{ github.repository_owner }}/testactionimage:dockerfile CmdOpts=build make cmd
+      - name: Build sealos image
+        working-directory: test/build-kubefile
+        run: |
+          sudo BuildImage=ghcr.io/${{ github.repository_owner }}/testactionimage:kubefile CmdOpts=build make cmd
+      
+
       - name: Trace memory
         run: free -m
   sealos:

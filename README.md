@@ -1,4 +1,3 @@
-
 ## Intro
 
 We need to create a temporary kubernetes cluster in github actions for running e2e tests in actions.
@@ -10,23 +9,32 @@ We need to create a temporary kubernetes cluster in github actions for running e
 See [action.yml](action.yml)
 
 **Sealos**:
+
 ```yaml
 steps:
-- name: Auto install k8s using sealos
-  uses: labring/sealos-action@v0.0.1
-  with:
-    image: labring/kubernetes:v1.24.0
-    sealosVersion: 4.1.3
-    buildah: false
-    debug: true
-- name: Run app image
-  run:  sudo sealos run labring/helm:v3.8.2 labring/calico:v3.24.1  --debug
+  - name: Auto install k8s using sealos
+    uses: labring/sealos-action@v0.0.1
+    with:
+      image: labring/kubernetes:v1.24.0
+      sealosVersion: 4.1.3
+      buildah: false
+      debug: true
+  - name: Run app image
+    run: sudo sealos run labring/helm:v3.8.2 labring/calico:v3.24.1  --debug
 ```
+
+| Name | Description                              | Default                      |
+| --- |------------------------------------------|------------------------------|
+| `type` | sealos command type, support `run,build` | `run`                        |
+| `image` | kubernetes rootfs image                  | `labring/kubernetes:v1.24.0` |
+| `sealosVersion` | sealos version                           | `4.1.3`                      |
+| `buildah` | install buildah to /usr/bin              | `false`                      |
+| `debug` | debug mode                               | `false`                      |
+| `sealctl` | install sealctl  to /usr/bin             | `false`                      | 
 
 ## Installers comparison
 
 sealos:  Supports `cluster image`, it is very convenient to install helm, ingress, cert-manager, @see https://sealos.io
-
 
 ## ChangeLog
 

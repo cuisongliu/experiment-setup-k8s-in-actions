@@ -9,9 +9,14 @@ branding:
   color: 'blue'
 
 inputs:
+  type:
+    description: 'Type of sealos cmd'
+    required: true
+    default: 'run'
+
   image:
     description: 'rootfs image,support docker and containerd'
-    required: true
+    required: false
     default: "labring/kubernetes:v1.24.0"
 
   sealosVersion:
