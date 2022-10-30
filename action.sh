@@ -41,6 +41,9 @@ readonly DEBUG=${debug:-}
     version)
   	  sudo -u root sealos version
   	  ;;
+  	image)
+  	  sudo -u root sealos images
+  	  ;;
     *)
       echo "unknown cmd"
       exit 1

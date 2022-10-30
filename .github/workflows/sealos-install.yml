@@ -25,24 +25,30 @@ jobs:
         run: |
           free -m
 
-      - name: Install sealos version
+      - name: Install sealos
         run: |
           sudo UseBuildah=true UseSealctl=true make install-sealos
+
+      - name: Install sealos version
+        run: |
           bash action.sh
 
       - name: Login sealos
         run: |
           username=${{ github.repository_owner }} password=${{ secrets.GH_TOKEN }} registry=ghcr.io cmd=login bash action.sh
 
-      - name: Build sealos image
+      - name: Build sealos image by dockerfile
         working-directory: test/build-dockerfile
         run: |
-          sudo image=testactionimage:dockerfile cmd=build make cmd
-      - name: Build sealos image
+          sudo image=testactionimage:dockerfile cmd=build bash action.sh
+      - name: Build sealos image by kubefile
         working-directory: test/build-kubefile
         run: |
-          sudo image=testactionimage:kubefile cmd=build debug=true make cmd
-      
+          sudo image=testactionimage:kubefile cmd=build debug=true bash action.sh
+
+      - name: Run app image
+        run: |
+          cmd=images debug=true bash action.sh
 
       - name: Trace memory
         run: free -m
