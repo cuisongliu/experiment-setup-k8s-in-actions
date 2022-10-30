@@ -19,7 +19,11 @@ inputs:
     default: "4.1.3"
 
   buildah:
-    description: 'useBuildah for sealos'
+    description: 'buildah for sealos'
+    default: "false"
+
+  sealctl:
+    description: 'sealctl for sealos'
     default: "false"
 
   debug:
@@ -36,7 +40,7 @@ runs:
   using: "composite"
   steps:
     - run: |
-        sudo UseBuildah=${{ inputs.buildah }} SealosVersion=${{ inputs.sealosVersion }} make install-sealos
+        sudo UseBuildah=${{ inputs.buildah }} UseSealctl=${{ inputs.sealctl }} SealosVersion=${{ inputs.sealosVersion }} make install-sealos
         sudo RootfsImage=${{ inputs.image }} Debug=${{ inputs.debug }} make run-k8s
       shell: bash
       id: default

@@ -3,6 +3,7 @@ SealosVersion?= 4.1.3
 ClusterImages ?=
 Debug ?=true
 UseBuildah ?=false
+UseSealctl ?=false
 
 get-debug:
 ifeq (false, $(Debug))
@@ -17,6 +18,11 @@ ifeq (true, $(UseBuildah))
 	$(call installBuildah)
 endif
 
+sealctl:
+ifeq (true, $(UseSealctl))
+	$(call downloadBin,sealctl,$(SealosVersion))
+endif
+
 define test
 node=aaa
 @echo $(1)
@@ -26,12 +32,9 @@ test-flag: get-debug
 	echo $(DEBUG_FLAG)
 	$(call test,ccc)
 
-install-sealos: buildah
+install-sealos: buildah sealctl
 	$(call uninstallCRI)
 	$(call downloadBin,sealos,$(SealosVersion))
-
-install-sealctl:
-	$(call downloadBin,sealctl,$(SealosVersion))
 
 
 run-k8s: get-debug
