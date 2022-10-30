@@ -12,7 +12,7 @@ inputs:
   type:
     description: 'Type of sealos cmd'
     required: true
-    default: 'run'
+    default: 'version'
 
   image:
     description: 'rootfs image,support docker and containerd'
@@ -38,9 +38,22 @@ inputs:
   working-directory:
     description: "Directory to run `sealos build` from, if not project root"
     default: "."
-
-
-
+  registry:
+    description: "Target Docker registry"
+    required: false
+  platform:
+    description: "Docker build platform passed via --platform"
+    required: false
+    default: "linux/amd64"
+  username:
+    description: "Docker registry username"
+    required: false
+  password:
+    description: "Docker registry password"
+    required: false
+  repository:
+    description: "Docker repository name"
+    required: false
 #outputs:
 #  result:
 #    description: action result
@@ -50,6 +63,17 @@ runs:
   steps:
     - run: |
         sudo UseBuildah=${{ inputs.buildah }} UseSealctl=${{ inputs.sealctl }} SealosVersion=${{ inputs.sealosVersion }} make install-sealos
-        sudo Image=${{ inputs.image }} Debug=${{ inputs.debug }} CmdOpts=run make cmd
+        bash .sealos-action.sh
       shell: bash
       id: default
+      env:
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+        registry: ${{ inputs.registry }}
+        debug: ${{ inputs.debug }}
+        repo: ${{ inputs.repository }}
+        cmd: ${{ inputs.type }}
+        platform: ${{ inputs.platform }}
+        image: ${{ inputs.image }}
+
+      working-directory: ${{ inputs.working-directory }}
