@@ -2,12 +2,12 @@
 
 set -eu
 
-readonly IMAGE_PLATFORM=${platform?}
-readonly IMAGE_NAME=${image?}
-readonly IMAGE_HUB_REGISTRY=${registry?}
-readonly IMAGE_HUB_REPO=${repo?}
-readonly IMAGE_HUB_USERNAME=${username?}
-readonly IMAGE_HUB_PASSWORD=${password?}
+readonly IMAGE_PLATFORM=${platform:-linux/amd64}
+readonly IMAGE_NAME=${image:-}
+readonly IMAGE_HUB_REGISTRY=${registry:-}
+readonly IMAGE_HUB_REPO=${repo:-}
+readonly IMAGE_HUB_USERNAME=${username:-}
+readonly IMAGE_HUB_PASSWORD=${password:-}
 readonly SEALOS_CMD=${cmd:-version}
 readonly DEBUG=${debug:-}
 {
