@@ -79,5 +79,5 @@ runs:
         install_buildah: ${{ inputs.buildah }}
         install_sealctl: ${{ inputs.sealctl }}
         sealos_version: ${{ inputs.sealosVersion }}
-
+        action_directory: $RUNNER_WORKSPACE/.sealos-action
       working-directory: ${{ inputs.working-directory }}

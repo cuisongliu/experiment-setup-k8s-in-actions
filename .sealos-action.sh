@@ -16,6 +16,7 @@ readonly INSTALL_BUILDAH=${install_buildah:-false}
 readonly INSTALL_SEALCTL=${install_sealctl:-false}
 readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.3}
 
+readonly ACTION_DIR=${action_directory:-}
 {
   [[ -s Dockerfile ]] && Kubefile="Dockerfile" || Kubefile="Kubefile"
 #  if [[ -s init.sh ]]; then
@@ -29,8 +30,8 @@ readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.3}
   case $SEALOS_CMD in
     run)
       sudo -u root sealos run $IMAGE_NAME --single $DEBUG_FLAG
-      bash tainit_node.sh
-      bash print_pods.sh
+      bash ${ACTION_DIR}/tainit_node.sh
+      bash ${ACTION_DIR}/print_pods.sh
       ;;
     login)
       sudo -u root sealos login -u "$IMAGE_HUB_USERNAME" -p "$IMAGE_HUB_PASSWORD" "$IMAGE_HUB_REGISTRY" $DEBUG_FLAG
@@ -50,7 +51,7 @@ readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.3}
   	  sudo -u root sealos images
   	  ;;
   	install)
-  	  sudo -u root UseBuildah=$INSTALL_BUILDAH UseSealctl=$INSTALL_SEALCTL SealosVersion=$INSTALL_SEALOS_VERSION make -f .sealos-action-Makefile install-sealos
+  	  sudo -u root UseBuildah=$INSTALL_BUILDAH UseSealctl=$INSTALL_SEALCTL SealosVersion=$INSTALL_SEALOS_VERSION make -f ${ACTION_DIR}/.sealos-action-Makefile install-sealos
   	  ;;
     *)
       echo "unknown cmd"
