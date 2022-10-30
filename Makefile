@@ -41,8 +41,8 @@ install-sealos: buildah sealctl
 ##remove next version
 run-k8s: get-debug
 	sudo -u root sealos run $(RootfsImage) --single $(DEBUG_FLAG)
-	$(call callShell,tainit_node.sh)
-	$(call callShell,print_pods.sh)
+	$(call callShell,.sealos-action-tainit_node.sh)
+	$(call callShell,.sealos-action-print_pods.sh)
 
 define callShell
 	@echo "callShell $(1)"

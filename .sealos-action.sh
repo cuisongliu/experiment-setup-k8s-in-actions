@@ -30,13 +30,12 @@ readonly DEBUG=${debug:-}
       sudo -u root sealos login -u "$IMAGE_HUB_USERNAME" -p "$IMAGE_HUB_PASSWORD" "$IMAGE_HUB_REGISTRY" $DEBUG_FLAG
       ;;
     build)
-      IMAGE_BUILD_NAME="$IMAGE_HUB_REGISTRY/$IMAGE_HUB_REPO/$IMAGE_NAME"
       IMAGE_BUILD="${IMAGE_NAME%%:*}:build-$(date +%s)"
       sudo sealos build -t "$IMAGE_BUILD" --platform "$IMAGE_PLATFORM" -f $Kubefile . $DEBUG_FLAG
-      sudo sealos tag "$IMAGE_BUILD" "$IMAGE_BUILD_NAME" && sudo sealos rmi -f "$IMAGE_BUILD"
+      sudo sealos tag "$IMAGE_BUILD" "$IMAGE_NAME" && sudo sealos rmi -f "$IMAGE_BUILD"
       ;;
     push)
-      sudo sealos push "$IMAGE_BUILD_NAME" $DEBUG_FLAG && echo "$IMAGE_BUILD_NAME push success"
+      sudo sealos push "$IMAGE_NAME" $DEBUG_FLAG && echo "$IMAGE_NAME push success"
   	  ;;
     version)
   	  sudo -u root sealos version
