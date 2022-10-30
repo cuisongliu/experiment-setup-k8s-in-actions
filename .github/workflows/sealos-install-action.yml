@@ -22,7 +22,7 @@ jobs:
 
       - name: Trace memory
         run: |
-          ls -l /home/runner/work/sealos-action
+          cd /home/runner/work/sealos-action && tree -L 3
           free -m
 
       - name: Auto install sealos
