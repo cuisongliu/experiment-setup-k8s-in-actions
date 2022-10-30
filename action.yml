@@ -12,7 +12,7 @@ inputs:
   type:
     description: 'Type of sealos cmd'
     required: true
-    default: 'version'
+    default: 'install'
 
   image:
     description: 'rootfs image,support docker and containerd'
@@ -62,7 +62,6 @@ runs:
   using: "composite"
   steps:
     - run: |
-        sudo UseBuildah=${{ inputs.buildah }} UseSealctl=${{ inputs.sealctl }} SealosVersion=${{ inputs.sealosVersion }} make install-sealos
         bash .sealos-action.sh
       shell: bash
       id: default
@@ -75,5 +74,8 @@ runs:
         cmd: ${{ inputs.type }}
         platform: ${{ inputs.platform }}
         image: ${{ inputs.image }}
+        install_buildah: ${{ inputs.buildah }}
+        install_sealctl: ${{ inputs.sealctl }}
+        sealos_version: ${{ inputs.sealosVersion }}
 
       working-directory: ${{ inputs.working-directory }}

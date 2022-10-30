@@ -10,6 +10,12 @@ readonly IMAGE_HUB_USERNAME=${username:-}
 readonly IMAGE_HUB_PASSWORD=${password:-}
 readonly SEALOS_CMD=${cmd:-version}
 readonly DEBUG=${debug:-}
+
+###
+readonly INSTALL_BUILDAH=${install_buildah:-false}
+readonly INSTALL_SEALCTL=${install_sealctl:-false}
+readonly INSTALL_SEALOS_VERSION=${sealos_version?}
+
 {
   [[ -s Dockerfile ]] && Kubefile="Dockerfile" || Kubefile="Kubefile"
 #  if [[ -s init.sh ]]; then
@@ -42,6 +48,9 @@ readonly DEBUG=${debug:-}
   	  ;;
   	images)
   	  sudo -u root sealos images
+  	  ;;
+  	install)
+  	  sudo -u root UseBuildah=$INSTALL_BUILDAH UseSealctl=$INSTALL_SEALCTL SealosVersion=$INSTALL_SEALOS_VERSION make install-sealos
   	  ;;
     *)
       echo "unknown cmd"
