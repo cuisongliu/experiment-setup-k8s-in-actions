@@ -14,7 +14,7 @@ readonly DEBUG=${debug:-}
 ###
 readonly INSTALL_BUILDAH=${install_buildah:-false}
 readonly INSTALL_SEALCTL=${install_sealctl:-false}
-readonly INSTALL_SEALOS_VERSION=${sealos_version?}
+readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.3}
 
 {
   [[ -s Dockerfile ]] && Kubefile="Dockerfile" || Kubefile="Kubefile"
