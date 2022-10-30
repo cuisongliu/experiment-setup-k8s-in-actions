@@ -43,6 +43,11 @@ install-sealos: buildah sealctl
 	$(call uninstallCRI)
 	$(call downloadBin,sealos,$(SealosVersion))
 
+##remove next version
+run-k8s: get-debug
+	sudo -u root sealos run $(RootfsImage) --single $(DEBUG_FLAG)
+	$(call callShell,tainit_node.sh)
+	$(call callShell,print_pods.sh)
 
 cmd: get-debug
 	$(call cmdFun,$(CmdOpts))
