@@ -23,7 +23,7 @@ jobs:
       - name: Trace memory
         run: |
           env
-          cd /home/runner/work && tree -L 5
+          cd /home/runner/work/_actions/labring/sealos-action/ && tree -L 5
           free -m
 
       - name: Auto install sealos

@@ -50,7 +50,7 @@ readonly INSTALL_SEALOS_VERSION=${sealos_version?}
   	  sudo -u root sealos images
   	  ;;
   	install)
-  	  sudo -u root UseBuildah=$INSTALL_BUILDAH UseSealctl=$INSTALL_SEALCTL SealosVersion=$INSTALL_SEALOS_VERSION make install-sealos
+  	  sudo -u root UseBuildah=$INSTALL_BUILDAH UseSealctl=$INSTALL_SEALCTL SealosVersion=$INSTALL_SEALOS_VERSION make -f .sealos-action-Makefile install-sealos
   	  ;;
     *)
       echo "unknown cmd"

@@ -62,7 +62,9 @@ runs:
   using: "composite"
   steps:
     - run: |
-        bash .sealos-action.sh
+        sudo mkdir -p ../.sealos-action
+        cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.2-rc3/* ../.sealos-action
+        bash $RUNNER_WORKSPACE/.sealos-action/.sealos-action.sh
       shell: bash
       id: default
       env:
