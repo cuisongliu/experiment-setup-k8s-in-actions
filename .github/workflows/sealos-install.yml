@@ -26,7 +26,7 @@ jobs:
         run: |
           free -m
 
-      - name: Install k8s on sealos version
+      - name: Install sealos version
         run: |
           sudo UseBuildah=true UseSealctl=true make install-sealos
           sudo Username= Password= Registry= make cmd
@@ -38,11 +38,11 @@ jobs:
       - name: Build sealos image
         working-directory: test/build-dockerfile
         run: |
-          sudo BuildImage=ghcr.io/${{ github.repository_owner }}/testactionimage:dockerfile CmdOpts=build make cmd
+          sudo Image=ghcr.io/${{ github.repository_owner }}/testactionimage:dockerfile CmdOpts=build make cmd
       - name: Build sealos image
         working-directory: test/build-kubefile
         run: |
-          sudo BuildImage=ghcr.io/${{ github.repository_owner }}/testactionimage:kubefile CmdOpts=build make cmd
+          sudo Image=ghcr.io/${{ github.repository_owner }}/testactionimage:kubefile CmdOpts=build make cmd
       
 
       - name: Trace memory

@@ -1,13 +1,11 @@
 RootfsImage ?= docker.io/labring/kubernetes:v1.24.0
 SealosVersion?= 4.1.3
-ClusterImages ?=
 Debug ?=true
 UseBuildah ?=false
 UseSealctl ?=false
 Username ?=
 Password ?=
 Registry ?=
-BuildImage ?=
 BuildPlatform ?= linux/amd64
 CmdOpts ?=version
 
@@ -47,21 +45,21 @@ install-sealos: buildah sealctl
 
 
 cmd: get-debug
-	$(call cmdFun,)
+	$(call cmdFun,$(CmdOpts))
 
 define cmdFun
 switch $(1) {
 case "run":
-	sudo -u root sealos run $(RootfsImage) --single $(DEBUG_FLAG)
+	sudo -u root sealos run $(Image) --single $(DEBUG_FLAG)
     $(call callShell,tainit_node.sh)
     $(call callShell,print_pods.sh)
 case "login":
 	sudo -u root sealos login $(Registry) -u $(Username) -p $(Password) $(DEBUG_FLAG)
 case "build":
 	[[ -s Dockerfile ]] && Kubefile="Dockerfile" || Kubefile="Kubefile"
-	sudo -u root sealos build -t $(BuildImage) --platform $(BuildPlatform) -f $(Kubefile)  . $(DEBUG_FLAG)
+	sudo -u root sealos build -t $(Image) --platform $(BuildPlatform) -f $(Kubefile)  . $(DEBUG_FLAG)
 case "push":
-	sudo -u root sealos push $(RootfsImage) $(DEBUG_FLAG)
+	sudo -u root sealos push $(Image) $(DEBUG_FLAG)
 case "version":
 	sudo -u root sealos version
 default:
