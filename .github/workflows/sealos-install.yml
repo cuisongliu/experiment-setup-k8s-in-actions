@@ -31,24 +31,26 @@ jobs:
 
       - name: Install sealos version
         run: |
-          bash action.sh
+          bash .sealos-action.sh
 
       - name: Login sealos
         run: |
-          username=${{ github.repository_owner }} password=${{ secrets.GH_TOKEN }} registry=ghcr.io cmd=login bash action.sh
+          username=${{ github.repository_owner }} password=${{ secrets.GH_TOKEN }} registry=ghcr.io cmd=login bash .sealos-action.sh
 
       - name: Build sealos image by dockerfile
         working-directory: test/build-dockerfile
         run: |
-          sudo image=testactionimage:dockerfile cmd=build bash action.sh
+          sudo cp ../../.sealos-action.sh .
+          sudo image=testactionimage:dockerfile cmd=build bash .sealos-action.sh
       - name: Build sealos image by kubefile
         working-directory: test/build-kubefile
         run: |
-          sudo image=testactionimage:kubefile cmd=build debug=true bash action.sh
+          sudo cp ../../.sealos-action.sh .
+          sudo image=testactionimage:kubefile cmd=build debug=true bash .sealos-action.sh
 
-      - name: Run app image
+      - name: Run images
         run: |
-          cmd=images debug=true bash action.sh
+          cmd=images debug=true bash .sealos-action.sh
 
       - name: Trace memory
         run: free -m
