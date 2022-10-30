@@ -15,6 +15,7 @@ readonly DEBUG=${debug:-}
 #  if [[ -s init.sh ]]; then
 #    bash init.sh "$APP_ARCH" "$APP_NAME" "$APP_VERSION"
 #  fi
+  DEBUG_FLAG=""
   if [[ "$DEBUG" == true ]]; then
     DEBUG_FLAG="--debug"
   fi
