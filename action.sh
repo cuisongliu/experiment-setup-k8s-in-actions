@@ -19,7 +19,7 @@ readonly DEBUG=${debug:-}
     DEBUG_FLAG="--debug"
   fi
 
-  case $(SEALOS_CMD) in
+  case $SEALOS_CMD in
     run)
       sudo -u root sealos run $IMAGE_NAME --single $DEBUG_FLAG
       bash tainit_node.sh
