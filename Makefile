@@ -53,24 +53,30 @@ cmd: get-debug
 	$(call cmdFun,$(CmdOpts))
 
 define cmdFun
-switch $(1) {
-case "run":
+case $(1) in
+  run)
 	sudo -u root sealos run $(Image) --single $(DEBUG_FLAG)
     $(call callShell,tainit_node.sh)
     $(call callShell,print_pods.sh)
-case "login":
+	;;
+  login)
 	sudo -u root sealos login $(Registry) -u $(Username) -p $(Password) $(DEBUG_FLAG)
-case "build":
+	;;
+  build)
 	[[ -s Dockerfile ]] && Kubefile="Dockerfile" || Kubefile="Kubefile"
 	sudo -u root sealos build -t $(Image) --platform $(BuildPlatform) -f $(Kubefile)  . $(DEBUG_FLAG)
-case "push":
+	;;
+  push)
 	sudo -u root sealos push $(Image) $(DEBUG_FLAG)
-case "version":
+	;;
+  version)
 	sudo -u root sealos version
-default:
+	;;
+  *)
 	echo "unknown cmd"
 	exit 1
-}
+	;;
+esac
 endef
 
 cmd: get-debug
