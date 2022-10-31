@@ -95,6 +95,12 @@ sealos:  Supports `cluster image`, it is very convenient to install helm, ingres
 3. support debug mode
 4. support install/build/run-k8s/run-app/login/push/version/images
 
+## Test
+
+[Action](https://github.com/labring/cluster-image/blob/main/.github/workflows/autobuild-testsealos.yml)
+
+[Running](https://github.com/labring/cluster-image/actions/runs/3361452446)
+
 ## Feature
 
 1. support sealos,sealctl (url,file,oci),not release version
