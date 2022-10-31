@@ -31,10 +31,13 @@ readonly ACTION_WORK_DIR=${RUNNER_WORKSPACE?}
   ACTION_FULL_DIR="$ACTION_WORK_DIR/$ACTION_DIR"
 
   case $SEALOS_CMD in
-    run)
+    run-k8s)
       sudo -u root sealos run $IMAGE_NAME --single $DEBUG_FLAG
-      bash ${ACTION_FULL_DIR}/tainit_node.sh
-      bash ${ACTION_FULL_DIR}/print_pods.sh
+      bash ${ACTION_FULL_DIR}/.sealos-action-tainit_node.sh
+      bash ${ACTION_FULL_DIR}/.sealos-action-print_pods.sh
+      ;;
+    run-app)
+      sudo -u root sealos run $IMAGE_NAME  $DEBUG_FLAG
       ;;
     login)
       sudo -u root sealos login -u "$IMAGE_HUB_USERNAME" -p "$IMAGE_HUB_PASSWORD" "$IMAGE_HUB_REGISTRY" $DEBUG_FLAG
