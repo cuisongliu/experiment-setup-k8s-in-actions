@@ -13,50 +13,50 @@ See [action.yml](action.yml)
 ```yaml
 steps:
   - name: Auto install sealos
-    uses: labring/sealos-action@v0.0.2-rc1
+    uses: labring/sealos-action@v0.0.2
     with:
       sealosVersion: 4.1.3
       buildah: false
       debug: true
       sealctl: true
   - name: Sealos version
-    uses: labring/sealos-action@v0.0.2-rc1
+    uses: labring/sealos-action@v0.0.2
     with:
       type: version
   - name: Login sealos
-    uses: labring/sealos-action@v0.0.2-rc1
+    uses: labring/sealos-action@v0.0.2
     with:
       type: login
       username: labring
       password: ${{ secrets.REGISTRY }}
       registry: docker.io
   - name: Build sealos image by dockerfile
-    uses: labring/sealos-action@v0.0.2-rc1
+    uses: labring/sealos-action@v0.0.2
     with:
       type: build
       image: ghcr.io/${{ github.repository_owner }}/testactionimage:dockerfile
       debug: true
       working-directory: test/build-dockerfile
   - name: Build sealos image by kubefile
-    uses: labring/sealos-action@v0.0.2-rc1
+    uses: labring/sealos-action@v0.0.2
     with:
       type: build
       image: ghcr.io/${{ github.repository_owner }}/testactionimage:kubefile
       debug: true
       working-directory: test/build-kubefile
   - name: Push sealos image
-    uses: labring/sealos-action@v0.0.2-rc1
+    uses: labring/sealos-action@v0.0.2
     with:
       type: push
       image: ghcr.io/${{ github.repository_owner }}/testactionimage:dockerfile
       debug: true
   - name: Run images
-    uses: labring/sealos-action@v0.0.2-rc1
+    uses: labring/sealos-action@v0.0.2
     with:
       type: images
       debug: true
   - name: Auto install k8s using sealos
-    uses: labring/sealos-action@v0.0.2-rc3
+    uses: labring/sealos-action@v0.0.2
     with:
       image: labring/kubernetes:v1.24.0
       debug: true
@@ -64,13 +64,19 @@ steps:
 
 ```
 
-| Name | Description                              | Default                      |
-| --- |------------------------------------------|------------------------------|
-| `image` | kubernetes rootfs image                  | `labring/kubernetes:v1.24.0` |
-| `sealosVersion` | sealos version                           | `4.1.3`                      |
-| `buildah` | install buildah to /usr/bin              | `false`                      |
-| `debug` | debug mode                               | `false`                      |
-| `sealctl` | install sealctl  to /usr/bin             | `false`                      | 
+| Name | Description                                                                   | Default                      |
+| --- |-------------------------------------------------------------------------------|------------------------------|
+ | `type` | sealos action type, 'install/login/build/push/images/version/run-k8s/run-app' | `install` |
+| `image` | sealos cluster image                                                          | `labring/kubernetes:v1.24.0` |
+| `sealosVersion` | sealos version                                                                | `4.1.3`                      |
+| `buildah` | install buildah to /usr/bin                                                   | `false`                      |
+| `debug` | debug mode                                                                    | `false`                      |
+| `sealctl` | install sealctl  to /usr/bin                                                  | `false`                      | 
+| `username` | registry username                                                             | ``                    |
+| `password` | registry password                                                             | ``                    |
+| `registry` | registry address                                                              | ``                    |
+| `working-directory` | working directory for build image                                            | ``                    |
+| `platform` | build image platform                                                          | `linux/amd64`                    |
 
 ## Installers comparison
 

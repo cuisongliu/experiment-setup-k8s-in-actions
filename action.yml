@@ -51,9 +51,6 @@ inputs:
   password:
     description: "Docker registry password"
     required: false
-  repository:
-    description: "Docker repository name"
-    required: false
 #outputs:
 #  result:
 #    description: action result
@@ -63,7 +60,7 @@ runs:
   steps:
     - run: |
         sudo mkdir -p ../.sealos-action
-        sudo cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.2-rc2/.sealos-action* ../.sealos-action/
+        sudo cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.2/.sealos-action* ../.sealos-action/
         bash $RUNNER_WORKSPACE/.sealos-action/.sealos-action.sh
       shell: bash
       id: default
@@ -72,7 +69,6 @@ runs:
         password: ${{ inputs.password }}
         registry: ${{ inputs.registry }}
         debug: ${{ inputs.debug }}
-        repo: ${{ inputs.repository }}
         cmd: ${{ inputs.type }}
         platform: ${{ inputs.platform }}
         image: ${{ inputs.image }}
