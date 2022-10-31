@@ -32,8 +32,6 @@ readonly ACTION_WORK_DIR=${RUNNER_WORKSPACE?}
   case $SEALOS_CMD in
     run-k8s)
       sudo -u root sealos run $IMAGE_NAME --single $DEBUG_FLAG
-      bash ${ACTION_FULL_DIR}/.sealos-action-tainit_node.sh
-      bash ${ACTION_FULL_DIR}/.sealos-action-print_pods.sh
       ;;
     run-app)
       sudo -u root sealos run $IMAGE_NAME  $DEBUG_FLAG
