@@ -60,7 +60,7 @@ steps:
     with:
       image: labring/kubernetes:v1.24.0
       debug: true
-      type: run
+      type: run-k8s
 
 ```
 
