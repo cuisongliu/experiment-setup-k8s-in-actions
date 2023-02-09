@@ -14,43 +14,18 @@ inputs:
     required: true
     default: 'install'
 
-  image:
-    description: 'rootfs image,support docker and containerd'
-    required: false
-    default: "docker.io/labring/kubernetes:v1.24.0"
-
   sealosVersion:
     description: 'sealos release version'
     default: "4.1.3"
-
-  buildah:
-    description: 'buildah for sealos'
-    default: "false"
 
   sealctl:
     description: 'sealctl for sealos'
     default: "false"
 
-  debug:
-    description: 'sealos run enable debug'
-    default: "false"
-
   working-directory:
     description: "Directory to run `sealos build` from, if not project root"
     default: "."
-  registry:
-    description: "Target Docker registry"
-    required: false
-  platform:
-    description: "Docker build platform passed via --platform"
-    required: false
-    default: "linux/amd64"
-  username:
-    description: "Docker registry username"
-    required: false
-  password:
-    description: "Docker registry password"
-    required: false
+
 #outputs:
 #  result:
 #    description: action result
@@ -65,14 +40,7 @@ runs:
       shell: bash
       id: default
       env:
-        username: ${{ inputs.username }}
-        password: ${{ inputs.password }}
-        registry: ${{ inputs.registry }}
-        debug: ${{ inputs.debug }}
         cmd: ${{ inputs.type }}
-        platform: ${{ inputs.platform }}
-        image: ${{ inputs.image }}
-        install_buildah: ${{ inputs.buildah }}
         install_sealctl: ${{ inputs.sealctl }}
         sealos_version: ${{ inputs.sealosVersion }}
         action_directory: .sealos-action
