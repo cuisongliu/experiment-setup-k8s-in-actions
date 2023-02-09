@@ -16,9 +16,9 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
   sudo mv buildah /usr/bin
 }
 {
-  sudo apt-get remove docker docker-engine docker.io containerd runc
-  sudo apt-get purge docker-ce docker-ce-cli containerd.io # docker-compose-plugin
-  sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
+  sudo apt-get remove docker docker-engine docker.io containerd runc > /dev/null
+  sudo apt-get purge docker-ce docker-ce-cli containerd.io > /dev/null # docker-compose-plugin
+  sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose > /dev/null
 }
 {
   case $SEALOS_CMD in
