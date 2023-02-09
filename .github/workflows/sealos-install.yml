@@ -32,6 +32,8 @@ jobs:
       - name: Install sealos version
         run: |
           sudo sealos version
+          sudo sealctl version
+          sudo buildah version
 
       - name: Login sealos
         run: |
