@@ -21,6 +21,10 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
   sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
 }
 {
+  wget https://go.dev/dl/go1.20.linux-amd64.tar.gz && tar -zxvf go1.20.linux-amd64.tar.gz && rm -rf go1.20.linux-amd64.tar.gz
+  ls -l
+}
+{
   case $SEALOS_CMD in
   	install)
   	  echo "download sealos sealctl in https://github.com/labring/sealos/releases/download/v${INSTALL_SEALOS_VERSION}/sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz"
