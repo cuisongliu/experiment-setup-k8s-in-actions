@@ -16,9 +16,9 @@ readonly ACTION_WORK_DIR=/tmp
 
   case $SEALOS_CMD in
   	install)
-  	  sudo -u root UseBuildah=$INSTALL_BUILDAH U make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile buildah
-  	  sudo -u root UseSealctl=$INSTALL_SEALCTL U make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile sealctl
-  	  sudo -u root SealosVersion=$INSTALL_SEALOS_VERSION U make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile install-sealos
+  	  sudo -u root UseBuildah=$INSTALL_BUILDAH  make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile buildah
+  	  sudo -u root UseSealctl=$INSTALL_SEALCTL  make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile sealctl
+  	  sudo -u root SealosVersion=$INSTALL_SEALOS_VERSION  make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile install-sealos
   	  ;;
     *)
       echo "unknown cmd"
