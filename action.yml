@@ -22,6 +22,10 @@ inputs:
     description: 'sealos git addr'
     default: "https://github.com/labring/sealos.git"
 
+  goAddr:
+    description: 'go download addr'
+    default: "https://go.dev/dl/go1.20.linux-amd64.tar.gz"
+
   working-directory:
     description: "Directory to run `sealos build` from, if not project root"
     default: "."
@@ -43,5 +47,6 @@ runs:
         cmd: ${{ inputs.type }}
         sealos_version: ${{ inputs.sealosVersion }}
         sealosGit: ${{ inputs.sealosGit }}
+        goAddr: ${{ inputs.goAddr }}
         action_directory: .sealos-action
       working-directory: ${{ inputs.working-directory }}

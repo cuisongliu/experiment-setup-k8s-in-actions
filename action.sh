@@ -7,7 +7,7 @@ readonly SEALOS_CMD=${cmd:-install}
 ###
 readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.4}
 readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
-
+readonly INSTALL_GO_ADDR=${goAddr:-https://go.dev/dl/go1.20.linux-amd64.tar.gz}
 
 {
   echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
@@ -30,10 +30,9 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
   	  ;;
   	install-dev)
   	  {
-        wget -q https://go.dev/dl/go1.20.linux-amd64.tar.gz && tar -zxf go1.20.linux-amd64.tar.gz && rm -rf go1.20.linux-amd64.tar.gz
-        mv go /tmp/.sealos-action/
-        export PATH="/tmp/.sealos-action/go/bin:${PATH}"
-        /tmp/.sealos-action/go/bin/go version
+        wget -qO goNew.tgz ${INSTALL_GO_ADDR} && tar -zxf goNew.tgz && rm -rf goNew.tgz
+        mkdir -p /tmp/golang && mv go /tmp/golang
+        export PATH="/tmp/golang/go/bin:${PATH}"
         go version
       }
       git clone $INSTALL_SEALOS_GIT
