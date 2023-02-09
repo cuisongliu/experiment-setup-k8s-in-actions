@@ -33,6 +33,7 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
       sudo apt update && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev
       cd sealos
       go install golang.org/dl/go1.20@latest
+      go1.20 download
       BINS=sealos make build
       BINS=sealctl make build
       sudo chmod a+x bin/linux_amd64/* && sudo mv bin/linux_amd64/* /usr/bin
