@@ -32,6 +32,7 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
   	  {
         wget -q https://go.dev/dl/go1.20.linux-amd64.tar.gz && tar -zxf go1.20.linux-amd64.tar.gz && rm -rf go1.20.linux-amd64.tar.gz
         mv go /tmp/.sealos-action/
+        cat /etc/profile
       }
       git clone $INSTALL_SEALOS_GIT
       sudo apt update && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev
