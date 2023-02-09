@@ -25,8 +25,8 @@ readonly INSTALL_GO_ADDR=${goAddr:-https://go.dev/dl/go1.20.linux-amd64.tar.gz}
   	install)
   	  echo "download sealos sealctl in https://github.com/labring/sealos/releases/download/v${INSTALL_SEALOS_VERSION}/sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz"
   	  sudo wget -q https://github.com/labring/sealos/releases/download/v${INSTALL_SEALOS_VERSION}/sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz
-  	  sudo tar -zxvf sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz sealos &&  chmod +x sealos && mv sealos /usr/bin
-  	  sudo tar -zxvf sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz sealctl &&  chmod +x sealctl && mv sealctl /usr/bin
+  	  sudo tar -zxvf sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz sealos &&  chmod +x sealos && sudo mv sealos /usr/bin
+  	  sudo tar -zxvf sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz sealctl &&  chmod +x sealctl && sudo mv sealctl /usr/bin
   	  ;;
   	install-dev)
   	  {
