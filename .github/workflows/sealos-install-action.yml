@@ -27,7 +27,7 @@ jobs:
           free -m
 
       - name: Auto install sealos
-        uses: labring/sealos-action@v0.0.3-rc1
+        uses: labring/sealos-action@v0.0.3-rc2
         with:
           sealosVersion: 4.1.5-alpha2
 
