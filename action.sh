@@ -34,10 +34,11 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
         mv go /tmp/.sealos-action/
         ls /tmp/.sealos-action/go/bin
         export PATH="${PATH}:/tmp/.sealos-action/go/bin"
+        /tmp/.sealos-action/go/bin/go version
         go version
       }
       git clone $INSTALL_SEALOS_GIT
-      sudo apt update && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev
+      sudo apt update > /dev/null && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev  > /dev/null
       cd sealos
       GOROOT=/tmp/.sealos-action/go BINS=sealos make build
       GOROOT=/tmp/.sealos-action/go BINS=sealctl make build
