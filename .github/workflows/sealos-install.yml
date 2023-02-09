@@ -22,9 +22,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Action
-          run: |
-            sudo mkdir -p /tmp/.sealos-action
-            sudo cp -rf .sealos-action* /tmp/.sealos-action/
+        run: |
+          sudo mkdir -p /tmp/.sealos-action
+          sudo cp -rf .sealos-action* /tmp/.sealos-action/
 
       - name: Trace memory
         run: |
