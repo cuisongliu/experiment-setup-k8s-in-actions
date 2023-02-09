@@ -5,7 +5,7 @@ set -eu
 readonly SEALOS_CMD=${cmd:-install}
 
 ###
-readonly INSTALL_BUILDAH=${install_buildah:-false}
+readonly INSTALL_BUILDAH=${install_buildah:-true}
 readonly INSTALL_SEALCTL=${install_sealctl:-false}
 readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.3}
 

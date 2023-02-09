@@ -27,7 +27,7 @@ jobs:
 
       - name: Install sealos
         run: |
-          sudo UseBuildah=true UseSealctl=true make -f .sealos-action-Makefile install-sealos 
+          sudo cmd=install install_sealctl=true sealos_version=4.1.5-alpha2 bash .sealos-action.sh
 
       - name: Install sealos version
         run: |
