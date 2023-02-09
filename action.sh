@@ -6,7 +6,7 @@ readonly SEALOS_CMD=${cmd:-install}
 
 ###
 readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.4}
-readonly INSTALL_SEALOS_GIT=${sealosGit:-ghcr.io/labring/sealos-patch:dev}
+readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
 
 
 {
