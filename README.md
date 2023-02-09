@@ -13,54 +13,33 @@ See [action.yml](action.yml)
 ```yaml
 steps:
   - name: Auto install sealos
-    uses: labring/sealos-action@v0.0.2
+    uses: labring/sealos-action@v0.0.3
     with:
       sealosVersion: 4.1.3
-      buildah: false
-      debug: true
-      sealctl: true
+      
   - name: Sealos version
-    uses: labring/sealos-action@v0.0.2
-    with:
-      type: version
+    run:  sudo sealos version
+    
   - name: Login sealos
-    uses: labring/sealos-action@v0.0.2
-    with:
-      type: login
-      username: labring
-      password: ${{ secrets.REGISTRY }}
-      registry: docker.io
+    run: |
+     sudo sealos login -u ${{ github.repository_owner }} -p ${{ secrets.GH_TOKEN }} --debug ghcr.io
+     
   - name: Build sealos image by dockerfile
-    uses: labring/sealos-action@v0.0.2
-    with:
-      type: build
-      image: ghcr.io/${{ github.repository_owner }}/testactionimage:dockerfile
-      debug: true
-      working-directory: test/build-dockerfile
+    working-directory: test/build-dockerfile
+    run: |
+      sudo sealos build -t testactionimage:dockerfile -f Dockerfile .
+      
   - name: Build sealos image by kubefile
-    uses: labring/sealos-action@v0.0.2
-    with:
-      type: build
-      image: ghcr.io/${{ github.repository_owner }}/testactionimage:kubefile
-      debug: true
-      working-directory: test/build-kubefile
-  - name: Push sealos image
-    uses: labring/sealos-action@v0.0.2
-    with:
-      type: push
-      image: ghcr.io/${{ github.repository_owner }}/testactionimage:dockerfile
-      debug: true
+    working-directory: test/build-kubefile
+    run: |
+      sudo sealos build -t testactionimage:kubefile -f Kubefile .
+      
   - name: Run images
-    uses: labring/sealos-action@v0.0.2
-    with:
-      type: images
-      debug: true
+    run: |
+     sudo sealos images
   - name: Auto install k8s using sealos
-    uses: labring/sealos-action@v0.0.2
-    with:
-      image: labring/kubernetes:v1.24.0
-      debug: true
-      type: run-k8s
+    run: |
+      sudo sealos run  labring/kubernetes:v1.24.0 --single
 
 ```
 
