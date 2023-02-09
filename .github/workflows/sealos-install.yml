@@ -40,12 +40,12 @@ jobs:
       - name: Build sealos image by dockerfile
         working-directory: test/build-dockerfile
         run: |
-          sudo sealos build -t testactionimage:dockerfile .
+          sudo sealos build -t testactionimage:dockerfile -f Dockerfile .
 
       - name: Build sealos image by kubefile
         working-directory: test/build-kubefile
         run: |
-          sudo sealos build -t testactionimage:kubefile .
+          sudo sealos build -t testactionimage:kubefile -f Kubefile .
 
       - name: Run images
         run: |
