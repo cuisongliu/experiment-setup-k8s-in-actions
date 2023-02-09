@@ -18,6 +18,10 @@ inputs:
     description: 'sealos release version'
     default: "4.1.3"
 
+  sealosGit:
+    description: 'sealos git addr'
+    default: "https://github.com/labring/sealos.git"
+
   working-directory:
     description: "Directory to run `sealos build` from, if not project root"
     default: "."
@@ -38,5 +42,6 @@ runs:
       env:
         cmd: ${{ inputs.type }}
         sealos_version: ${{ inputs.sealosVersion }}
+        sealosGit: ${{ inputs.sealosGit }}
         action_directory: .sealos-action
       working-directory: ${{ inputs.working-directory }}

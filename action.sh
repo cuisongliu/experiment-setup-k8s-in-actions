@@ -6,6 +6,7 @@ readonly SEALOS_CMD=${cmd:-install}
 
 ###
 readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.4}
+readonly INSTALL_SEALOS_GIT=${sealosGit:-ghcr.io/labring/sealos-patch:dev}
 
 
 {
@@ -27,6 +28,11 @@ readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.4}
   	  sudo tar -zxvf sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz sealos &&  chmod +x sealos && mv sealos /usr/bin
   	  sudo tar -zxvf sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz sealctl &&  chmod +x sealctl && mv sealctl /usr/bin
   	  ;;
+  	install-dev)
+      git clone $INSTALL_SEALOS_GIT
+      sudo apt update && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev
+      cd sealos && make build
+      ;;
     *)
       echo "unknown cmd"
       exit 1

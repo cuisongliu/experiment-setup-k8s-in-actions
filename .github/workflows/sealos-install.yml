@@ -32,7 +32,7 @@ jobs:
 
       - name: Install sealos
         run: |
-          sudo cmd=install  sealos_version=4.1.5-alpha2 bash action.sh
+          sudo cmd=install-dev  sealos_version=4.1.5-alpha2 bash action.sh
 
       - name: Install sealos version
         run: |
