@@ -21,10 +21,6 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
   sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose
 }
 {
-  wget https://go.dev/dl/go1.20.linux-amd64.tar.gz && tar -zxvf go1.20.linux-amd64.tar.gz && rm -rf go1.20.linux-amd64.tar.gz
-  ls -l
-}
-{
   case $SEALOS_CMD in
   	install)
   	  echo "download sealos sealctl in https://github.com/labring/sealos/releases/download/v${INSTALL_SEALOS_VERSION}/sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz"
@@ -33,14 +29,15 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
   	  sudo tar -zxvf sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz sealctl &&  chmod +x sealctl && mv sealctl /usr/bin
   	  ;;
   	install-dev)
+  	  {
+        wget -q https://go.dev/dl/go1.20.linux-amd64.tar.gz && tar -zxf go1.20.linux-amd64.tar.gz && rm -rf go1.20.linux-amd64.tar.gz
+        mv go /tmp/.sealos-action/
+      }
       git clone $INSTALL_SEALOS_GIT
       sudo apt update && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev
       cd sealos
-      go install golang.org/dl/go1.20@latest
-      go env
-      go1.20 download
-      BINS=sealos make build
-      BINS=sealctl make build
+      GOROOT=/tmp/.sealos-action/go BINS=sealos make build
+      GOROOT=/tmp/.sealos-action/go BINS=sealctl make build
       sudo chmod a+x bin/linux_amd64/* && sudo mv bin/linux_amd64/* /usr/bin
       ;;
     *)
