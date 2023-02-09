@@ -1,6 +1,6 @@
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions
-name: 'Auto install k8s using sealos'
-description: 'Auto install k8s using sealos'
+name: 'Auto setup sealos'
+description: 'Auto setup sealos'
 author: 'cuisongliu'
 
 branding:
@@ -18,10 +18,6 @@ inputs:
     description: 'sealos release version'
     default: "4.1.3"
 
-  sealctl:
-    description: 'sealctl for sealos'
-    default: "false"
-
   working-directory:
     description: "Directory to run `sealos build` from, if not project root"
     default: "."
@@ -36,12 +32,11 @@ runs:
     - run: |
         sudo mkdir -p /tmp/.sealos-action
         sudo cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.2/.sealos-action* /tmp/.sealos-action/
-        bash /tmp/.sealos-action/.sealos-action.sh
+        bash /tmp/.sealos-action/action.sh
       shell: bash
       id: default
       env:
         cmd: ${{ inputs.type }}
-        install_sealctl: ${{ inputs.sealctl }}
         sealos_version: ${{ inputs.sealosVersion }}
         action_directory: .sealos-action
       working-directory: ${{ inputs.working-directory }}
