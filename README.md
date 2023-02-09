@@ -2,7 +2,7 @@
 
 We need to create a temporary kubernetes cluster in github actions for running e2e tests in actions.
 
-- sealos run k8s in github actions
+- setup sealos  in github actions
 
 ## Usage
 
@@ -64,19 +64,14 @@ steps:
 
 ```
 
-| Name | Description                                                                   | Default                      |
-| --- |-------------------------------------------------------------------------------|------------------------------|
- | `type` | sealos action type, 'install/login/build/push/images/version/run-k8s/run-app' | `install` |
-| `image` | sealos cluster image                                                          | `labring/kubernetes:v1.24.0` |
-| `sealosVersion` | sealos version                                                                | `4.1.3`                      |
-| `buildah` | install buildah to /usr/bin                                                   | `false`                      |
-| `debug` | debug mode                                                                    | `false`                      |
-| `sealctl` | install sealctl  to /usr/bin                                                  | `false`                      | 
-| `username` | registry username                                                             | ``                    |
-| `password` | registry password                                                             | ``                    |
-| `registry` | registry address                                                              | ``                    |
-| `working-directory` | working directory for build image                                            | ``                    |
-| `platform` | build image platform                                                          | `linux/amd64`                    |
+| Name | Description                                  | Default                      |
+| --- |----------------------------------------------|------------------------------|
+ | `type` | sealos action type, 'install/install-dev'    | `install` |
+| `sealosVersion` | sealos version                               | `4.1.3`                      |
+| `working-directory` | working directory for build image            | ``                    |
+ | `sealosGit` | sealos git addr, using type=install-dev      |`https://github.com/labring/sealos.git`|
+| `goAddr` | go tar download addr, using type=install-dev |`https://go.dev/dl/go1.20.linux-amd64.tar.gz`|
+
 
 ## Installers comparison
 
@@ -95,12 +90,15 @@ sealos:  Supports `cluster image`, it is very convenient to install helm, ingres
 3. support debug mode
 4. support install/build/run-k8s/run-app/login/push/version/images
 
+### 0.0.3
+1. support main sealos build
+2. delete build/run-k8s/run-app/login/push/version/images
+3. support install-dev
+
 ## Test
 
 [Action](https://github.com/labring/cluster-image/blob/main/.github/workflows/autobuild-testsealos.yml)
 
 [Running](https://github.com/labring/cluster-image/actions/runs/3361452446)
 
-## Feature
 
-1. support sealos,sealctl (url,file,oci),not release version
