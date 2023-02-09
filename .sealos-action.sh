@@ -10,7 +10,7 @@ readonly INSTALL_SEALCTL=${install_sealctl:-false}
 readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.3}
 
 readonly ACTION_DIR=${action_directory:-}
-readonly ACTION_WORK_DIR=${RUNNER_WORKSPACE?}
+readonly ACTION_WORK_DIR=/tmp
 {
   ACTION_FULL_DIR="$ACTION_WORK_DIR/$ACTION_DIR"
 

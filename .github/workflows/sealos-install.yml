@@ -21,13 +21,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install Action
+          run: |
+            sudo mkdir -p /tmp/.sealos-action
+            sudo cp -rf .sealos-action* /tmp/.sealos-action/
+
       - name: Trace memory
         run: |
           free -m
 
       - name: Install sealos
         run: |
-          env
           sudo cmd=install install_sealctl=true sealos_version=4.1.5-alpha2 bash .sealos-action.sh
 
       - name: Install sealos version

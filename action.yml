@@ -34,9 +34,9 @@ runs:
   using: "composite"
   steps:
     - run: |
-        sudo mkdir -p ../.sealos-action
-        sudo cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.2/.sealos-action* ../.sealos-action/
-        bash $RUNNER_WORKSPACE/.sealos-action/.sealos-action.sh
+        sudo mkdir -p /tmp/.sealos-action
+        sudo cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.2/.sealos-action* /tmp/.sealos-action/
+        bash /tmp/.sealos-action/.sealos-action.sh
       shell: bash
       id: default
       env:
