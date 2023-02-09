@@ -31,7 +31,10 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
   	install-dev)
       git clone $INSTALL_SEALOS_GIT
       sudo apt update && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev
-      cd sealos && make build
+      cd sealos
+      BINS=sealos make build
+      BINS=sealctl make build
+      sudo chmod a+x bin/linux_amd64/* && sudo mv bin/linux_amd64/* /usr/bin
       ;;
     *)
       echo "unknown cmd"
