@@ -37,11 +37,11 @@ readonly ACTION_WORK_DIR=${RUNNER_WORKSPACE?}
       sudo -u root sealos run $IMAGE_NAME  $DEBUG_FLAG
       ;;
     login)
-      sudo -u root sealos login -u "$IMAGE_HUB_USERNAME" -p "$IMAGE_HUB_PASSWORD" "$IMAGE_HUB_REGISTRY" $DEBUG_FLAG
+      sudo -u root sealos login $DEBUG_FLAG -u "$IMAGE_HUB_USERNAME" -p "$IMAGE_HUB_PASSWORD" "$IMAGE_HUB_REGISTRY"
       ;;
     build)
       IMAGE_BUILD="${IMAGE_NAME%%:*}:build-$(date +%s)"
-      sudo sealos build -t "$IMAGE_BUILD" --platform "$IMAGE_PLATFORM" -f $Kubefile . $DEBUG_FLAG
+      sudo sealos build -t "$IMAGE_BUILD" --platform "$IMAGE_PLATFORM" -f $Kubefile $DEBUG_FLAG .
       sudo sealos tag "$IMAGE_BUILD" "$IMAGE_NAME" && sudo sealos rmi -f "$IMAGE_BUILD"
       ;;
     push)
@@ -54,7 +54,10 @@ readonly ACTION_WORK_DIR=${RUNNER_WORKSPACE?}
   	  sudo -u root sealos images
   	  ;;
   	install)
-  	  sudo -u root UseBuildah=$INSTALL_BUILDAH UseSealctl=$INSTALL_SEALCTL SealosVersion=$INSTALL_SEALOS_VERSION make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile install-sealos
+  	  sudo -u root UseBuildah=$INSTALL_BUILDAH U make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile buildah
+
+  	  sudo -u root UseSealctl=$INSTALL_SEALCTL U make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile sealctl
+  	  sudo -u root SealosVersion=$INSTALL_SEALOS_VERSION U make -f ${ACTION_FULL_DIR}/.sealos-action-Makefile install-sealos
   	  ;;
     *)
       echo "unknown cmd"

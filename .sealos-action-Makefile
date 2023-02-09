@@ -34,7 +34,7 @@ test-flag: get-debug
 	echo $(DEBUG_FLAG)
 	$(call test1,ccc)
 
-install-sealos: buildah sealctl
+install-sealos:
 	$(call uninstallCRI)
 	$(call downloadBin,sealos,$(SealosVersion))
 
