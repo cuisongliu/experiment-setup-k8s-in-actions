@@ -38,8 +38,8 @@ readonly INSTALL_GO_ADDR=${goAddr:-https://go.dev/dl/go1.20.linux-amd64.tar.gz}
       git clone $INSTALL_SEALOS_GIT
       sudo apt update > /dev/null && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev  > /dev/null
       cd sealos
-      GOROOT=/tmp/.sealos-action/go BINS=sealos make build
-      GOROOT=/tmp/.sealos-action/go BINS=sealctl make build
+      BINS=sealos make build
+      BINS=sealctl make build
       sudo chmod a+x bin/linux_amd64/* && sudo mv bin/linux_amd64/* /usr/bin
       ;;
     *)
