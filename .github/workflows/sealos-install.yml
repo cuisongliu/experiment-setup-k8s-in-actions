@@ -24,7 +24,7 @@ jobs:
       - name: Install Action
         run: |
           sudo mkdir -p /tmp/.sealos-action
-          sudo cp -rf .sealos-action* /tmp/.sealos-action/
+          sudo cp -rf * /tmp/.sealos-action/
 
       - name: Trace memory
         run: |
