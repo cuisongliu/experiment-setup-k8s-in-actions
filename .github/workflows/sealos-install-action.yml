@@ -27,9 +27,13 @@ jobs:
           free -m
 
       - name: Auto install sealos
-        uses: labring/sealos-action@v0.0.3-rc3
+        uses: labring/sealos-action@v0.0.4
         with:
           type: install-dev
+          sealosGit: https://github.com/cuisongliu/sealos.git
+          sealosGitBranch: main
+          goAddr: https://go.dev/dl/go1.20.linux-amd64.tar.gz
+          pruneCRI: false
 
       - name: Install sealos version
         run: |
