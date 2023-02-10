@@ -33,7 +33,7 @@ jobs:
           sealosGit: https://github.com/cuisongliu/sealos.git
           sealosGitBranch: main
           goAddr: https://go.dev/dl/go1.20.linux-amd64.tar.gz
-          pruneCRI: false
+          pruneCRI: true
 
       - name: Install sealos version
         run: |
