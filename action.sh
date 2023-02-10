@@ -7,7 +7,9 @@ readonly SEALOS_CMD=${cmd:-install}
 ###
 readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.4}
 readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
+readonly INSTALL_SEALOS_GIT_BRANCH=${sealosGitBranch:-main}
 readonly INSTALL_GO_ADDR=${goAddr:-https://go.dev/dl/go1.20.linux-amd64.tar.gz}
+readonly PRUNE_CRI=${pruneCRI:-true}
 
 {
   echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
@@ -15,11 +17,16 @@ readonly INSTALL_GO_ADDR=${goAddr:-https://go.dev/dl/go1.20.linux-amd64.tar.gz}
   chmod a+x buildah
   sudo mv buildah /usr/bin
 }
-{
-  sudo apt-get remove docker docker-engine docker.io containerd runc > /dev/null
-  sudo apt-get purge docker-ce docker-ce-cli containerd.io > /dev/null # docker-compose-plugin
-  sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose > /dev/null
-}
+
+if [[ $PRUNE_CRI == 'true' ]]; then
+    {
+      echo "prune cri doing...."
+      sudo apt-get remove -y docker docker-engine docker.io containerd runc > /dev/null
+      sudo apt-get purge docker-ce docker-ce-cli containerd.io > /dev/null # docker-compose-plugin
+      sudo apt-get remove -y moby-engine moby-cli moby-buildx moby-compose > /dev/null
+    }
+fi
+
 {
   case $SEALOS_CMD in
   	install)
@@ -35,7 +42,8 @@ readonly INSTALL_GO_ADDR=${goAddr:-https://go.dev/dl/go1.20.linux-amd64.tar.gz}
         export PATH="/tmp/golang/go/bin:${PATH}"
         go version
       }
-      git clone $INSTALL_SEALOS_GIT
+      echo "clone git branch $INSTALL_SEALOS_GIT_BRANCH for repo $INSTALL_SEALOS_GIT"
+      git clone -b $INSTALL_SEALOS_GIT_BRANCH $INSTALL_SEALOS_GIT
       sudo apt update > /dev/null && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev  > /dev/null
       cd sealos
       BINS=sealos make build

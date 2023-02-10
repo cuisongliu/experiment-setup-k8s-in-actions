@@ -22,9 +22,17 @@ inputs:
     description: 'sealos git addr'
     default: "https://github.com/labring/sealos.git"
 
+  sealosGitBranch:
+    description: 'sealos git branch'
+    default: "main"
+
   goAddr:
     description: 'go download addr'
     default: "https://go.dev/dl/go1.20.linux-amd64.tar.gz"
+
+  pruneCRI:
+    description: 'remove cri pkg'
+    default: "true"
 
   working-directory:
     description: "Directory to run `sealos build` from, if not project root"
@@ -47,6 +55,8 @@ runs:
         cmd: ${{ inputs.type }}
         sealos_version: ${{ inputs.sealosVersion }}
         sealosGit: ${{ inputs.sealosGit }}
+        sealosGitBranch: ${{ inputs.sealosGitBranch }}
+        pruneCRI: ${{ inputs.pruneCRI }}
         goAddr: ${{ inputs.goAddr }}
         action_directory: .sealos-action
       working-directory: ${{ inputs.working-directory }}

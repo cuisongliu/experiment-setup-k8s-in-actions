@@ -8,7 +8,7 @@ We need to create a temporary kubernetes cluster in github actions for running e
 
 See [action.yml](action.yml)
 
-**Sealos**:
+**SealosByRelease**:
 
 ```yaml
 steps:
@@ -43,13 +43,56 @@ steps:
 
 ```
 
-| Name | Description                                  | Default                      |
-| --- |----------------------------------------------|------------------------------|
- | `type` | sealos action type, 'install/install-dev'    | `install` |
-| `sealosVersion` | sealos version                               | `4.1.3`                      |
-| `working-directory` | working directory for build image            | ``                    |
- | `sealosGit` | sealos git addr, using type=install-dev      |`https://github.com/labring/sealos.git`|
-| `goAddr` | go tar download addr, using type=install-dev |`https://go.dev/dl/go1.20.linux-amd64.tar.gz`|
+**SealosByMainCode**:
+
+```yaml
+steps:
+  - name: Auto install sealos
+    uses: labring/sealos-action@v0.0.3
+    with:
+      type: install-dev
+      sealosGit: https://github.com/cuisongliu/sealos.git
+      sealosGitBranch: main
+      goAddr: https://go.dev/dl/go1.20.linux-amd64.tar.gz
+      pruneCRI: true
+      
+  - name: Sealos version
+    run:  sudo sealos version
+    
+  - name: Login sealos
+    run: |
+     sudo sealos login -u ${{ github.repository_owner }} -p ${{ secrets.GH_TOKEN }} --debug ghcr.io
+     
+  - name: Build sealos image by dockerfile
+    working-directory: test/build-dockerfile
+    run: |
+      sudo sealos build -t testactionimage:dockerfile -f Dockerfile .
+      
+  - name: Build sealos image by kubefile
+    working-directory: test/build-kubefile
+    run: |
+      sudo sealos build -t testactionimage:kubefile -f Kubefile .
+      
+  - name: Run images
+    run: |
+     sudo sealos images
+  - name: Auto install k8s using sealos
+    run: |
+      sudo sealos run  labring/kubernetes:v1.24.0 --single
+
+```
+
+
+
+| Name | Description                                 | Default                                       |
+| --- |---------------------------------------------|-----------------------------------------------|
+ | `type` | sealos action type, 'install/install-dev'   | `install`                                     |
+| `sealosVersion` | sealos version                              | `4.1.3`                                       |
+| `working-directory` | working directory for build image           | ``                                            |
+ | `sealosGit` | sealos git addr, using type=install-dev     | `https://github.com/labring/sealos.git`       |
+| `sealosGitBranch` | sealos git branch, using type=install-dev   | `main`                                        |
+| `pruneCRI` | pruneCRI pkg ex: docker,runc,containerd     | `true`                                        |
+| `goAddr` | go tar download addr, using type=install-dev | `https://go.dev/dl/go1.20.linux-amd64.tar.gz` |
 
 
 ## Installers comparison
@@ -73,6 +116,10 @@ sealos:  Supports `cluster image`, it is very convenient to install helm, ingres
 1. support main sealos build
 2. delete build/run-k8s/run-app/login/push/version/images
 3. support install-dev
+
+### 0.0.4
+1. support git branch
+2. support prune cri pkg
 
 ## Test
 
