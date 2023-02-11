@@ -2,21 +2,29 @@
 
 set -eu
 
+readonly ERR_CODE=127
+
+case $(arch) in
+x86_64)
+  ARCH=amd64
+  ;;
+*)
+  echo "only support amd64(x86_64)"
+  exit $ERR_CODE
+  ;;
+esac
+
+readonly IMAGE_CACHE_NAME="ghcr.io/labring-actions/cache"
 readonly SEALOS_CMD=${cmd:-install}
 
 ###
-readonly INSTALL_SEALOS_VERSION=${sealos_version:-4.1.4}
-readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
-readonly INSTALL_SEALOS_GIT_BRANCH=${sealosGitBranch:-main}
-readonly INSTALL_GO_ADDR=${goAddr:-https://go.dev/dl/go1.20.linux-amd64.tar.gz}
+readonly SEALOS=${sealos_version:-4.1.4}
 readonly PRUNE_CRI=${pruneCRI:-true}
 
-{
-  echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
-  wget -qO "buildah" "https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
-  chmod a+x buildah
-  sudo mv buildah /usr/bin
-}
+echo "download buildah"
+until sudo docker run --rm -v "/usr/bin:/pwd" -w /tools --entrypoint /bin/sh "$IMAGE_CACHE_NAME:tools-$ARCH" -c "ls -lh && cp -a buildah /pwd"; do
+  sleep 3
+done
 
 if [[ $PRUNE_CRI == 'true' ]]; then
     {
@@ -30,25 +38,12 @@ fi
 {
   case $SEALOS_CMD in
   	install)
-  	  echo "download sealos sealctl in https://github.com/labring/sealos/releases/download/v${INSTALL_SEALOS_VERSION}/sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz"
-  	  sudo wget -q https://github.com/labring/sealos/releases/download/v${INSTALL_SEALOS_VERSION}/sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz
-  	  sudo tar -zxvf sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz sealos &&  chmod +x sealos && sudo mv sealos /usr/bin
-  	  sudo tar -zxvf sealos_${INSTALL_SEALOS_VERSION}_linux_amd64.tar.gz sealctl &&  chmod +x sealctl && sudo mv sealctl /usr/bin
+  	  echo "download sealos sealctl"
+  	  sudo docker run --rm -v "/usr/bin:/pwd" --entrypoint /bin/sh "ghcr.io/labring-actions/cache:sealos-v$SEALOS-$ARCH" -c "cp -a /sealos/sealos /sealos/sealctl /pwd"
   	  ;;
   	install-dev)
-  	  {
-        wget -qO goNew.tgz ${INSTALL_GO_ADDR} && tar -zxf goNew.tgz && rm -rf goNew.tgz
-        mkdir -p /tmp/golang && mv go /tmp/golang
-        export PATH="/tmp/golang/go/bin:${PATH}"
-        go version
-      }
-      echo "clone git branch $INSTALL_SEALOS_GIT_BRANCH for repo $INSTALL_SEALOS_GIT"
-      git clone -b $INSTALL_SEALOS_GIT_BRANCH $INSTALL_SEALOS_GIT
-      sudo apt update > /dev/null && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev  > /dev/null
-      cd sealos
-      BINS=sealos make build
-      BINS=sealctl make build
-      sudo chmod a+x bin/linux_amd64/* && sudo mv bin/linux_amd64/* /usr/bin
+      echo "download sealos sealctl for dev"
+      sudo docker run --rm -v "/usr/bin:/pwd" --entrypoint /bin/sh ghcr.io/labring/sealos:dev -c "cp -a /usr/bin/sealos /sealos/sealctl /pwd"
       ;;
     *)
       echo "unknown cmd"
@@ -56,4 +51,7 @@ fi
       ;;
   esac
 }
+
+sealctl version
+sealos version
 
