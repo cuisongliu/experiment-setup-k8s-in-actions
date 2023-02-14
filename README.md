@@ -84,15 +84,16 @@ steps:
 
 
 
-| Name | Description                                 | Default                                       |
-| --- |---------------------------------------------|-----------------------------------------------|
- | `type` | sealos action type, 'install/install-dev'   | `install`                                     |
-| `sealosVersion` | sealos version                              | `4.1.3`                                       |
-| `working-directory` | working directory for build image           | ``                                            |
- | `sealosGit` | sealos git addr, using type=install-dev     | `https://github.com/labring/sealos.git`       |
-| `sealosGitBranch` | sealos git branch, using type=install-dev   | `main`                                        |
-| `pruneCRI` | pruneCRI pkg ex: docker,runc,containerd     | `true`                                        |
-| `goAddr` | go tar download addr, using type=install-dev | `https://go.dev/dl/go1.20.linux-amd64.tar.gz` |
+| Name                | Description                                  | Default                                       |
+|---------------------|----------------------------------------------|-----------------------------------------------|
+ | `type`              | sealos action type, 'install/install-dev'    | `install`                                     |
+| `sealosVersion`     | sealos version                               | `4.1.3`                                       |
+| `working-directory` | working directory for build image            | ``                                            |
+ | `sealosGit`         | sealos git addr, using type=install-dev      | `https://github.com/labring/sealos.git`       |
+| `sealosGitBranch`   | sealos git branch, using type=install-dev    | `main`                                        |
+| `pruneCRI`          | pruneCRI pkg ex: docker,runc,containerd      | `true`                                        |
+| `autoFetch`         | auto fetch git code                          | `true`                                        |
+| `goAddr`            | go tar download addr, using type=install-dev | `https://go.dev/dl/go1.20.linux-amd64.tar.gz` |
 
 
 ## Installers comparison

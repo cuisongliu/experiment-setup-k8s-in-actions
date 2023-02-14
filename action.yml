@@ -34,6 +34,10 @@ inputs:
     description: 'remove cri pkg'
     default: "true"
 
+  authFetch:
+    description: 'auth fetch code'
+    default: "true"
+
   working-directory:
     description: "Directory to run `sealos build` from, if not project root"
     default: "."
@@ -47,7 +51,7 @@ runs:
   steps:
     - run: |
         sudo mkdir -p /tmp/.sealos-action
-        sudo cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.4/* /tmp/.sealos-action/
+        sudo cp -rf /home/runner/work/_actions/labring/sealos-action/v0.0.5/* /tmp/.sealos-action/
         bash /tmp/.sealos-action/action.sh
       shell: bash
       id: default
@@ -56,6 +60,7 @@ runs:
         sealos_version: ${{ inputs.sealosVersion }}
         sealosGit: ${{ inputs.sealosGit }}
         sealosGitBranch: ${{ inputs.sealosGitBranch }}
+        authFetch: ${{ inputs.authFetch }}
         pruneCRI: ${{ inputs.pruneCRI }}
         goAddr: ${{ inputs.goAddr }}
         action_directory: .sealos-action

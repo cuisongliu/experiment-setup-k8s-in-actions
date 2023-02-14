@@ -10,6 +10,7 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
 readonly INSTALL_SEALOS_GIT_BRANCH=${sealosGitBranch:-main}
 readonly INSTALL_GO_ADDR=${goAddr:-https://go.dev/dl/go1.20.linux-amd64.tar.gz}
 readonly PRUNE_CRI=${pruneCRI:-true}
+readonly AUTO_FETCH=${authFetch:-true}
 
 {
   echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
@@ -42,10 +43,12 @@ fi
         export PATH="/tmp/golang/go/bin:${PATH}"
         go version
       }
-      echo "clone git branch $INSTALL_SEALOS_GIT_BRANCH for repo $INSTALL_SEALOS_GIT"
-      git clone -b $INSTALL_SEALOS_GIT_BRANCH $INSTALL_SEALOS_GIT
       sudo apt update > /dev/null && sudo apt install -y libgpgme-dev libbtrfs-dev libdevmapper-dev  > /dev/null
-      cd sealos
+      if [[ $AUTO_FETCH == 'true' ]]; then
+        echo "clone git branch $INSTALL_SEALOS_GIT_BRANCH for repo $INSTALL_SEALOS_GIT"
+        git clone -b $INSTALL_SEALOS_GIT_BRANCH $INSTALL_SEALOS_GIT
+        cd sealos
+      fi
       BINS=sealos make build
       BINS=sealctl make build
       sudo chmod a+x bin/linux_amd64/* && sudo mv bin/linux_amd64/* /usr/bin
