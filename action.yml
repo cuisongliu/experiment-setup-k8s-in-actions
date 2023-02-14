@@ -34,8 +34,8 @@ inputs:
     description: 'remove cri pkg'
     default: "true"
 
-  authFetch:
-    description: 'auth fetch code'
+  autoFetch:
+    description: 'auto fetch code'
     default: "true"
 
   working-directory:
@@ -60,7 +60,7 @@ runs:
         sealos_version: ${{ inputs.sealosVersion }}
         sealosGit: ${{ inputs.sealosGit }}
         sealosGitBranch: ${{ inputs.sealosGitBranch }}
-        authFetch: ${{ inputs.authFetch }}
+        autoFetch: ${{ inputs.autoFetch }}
         pruneCRI: ${{ inputs.pruneCRI }}
         goAddr: ${{ inputs.goAddr }}
         action_directory: .sealos-action

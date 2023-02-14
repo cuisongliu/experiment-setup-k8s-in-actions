@@ -10,7 +10,7 @@ readonly INSTALL_SEALOS_GIT=${sealosGit:-https://github.com/labring/sealos.git}
 readonly INSTALL_SEALOS_GIT_BRANCH=${sealosGitBranch:-main}
 readonly INSTALL_GO_ADDR=${goAddr:-https://go.dev/dl/go1.20.linux-amd64.tar.gz}
 readonly PRUNE_CRI=${pruneCRI:-true}
-readonly AUTO_FETCH=${authFetch:-true}
+readonly AUTO_FETCH=${autoFetch:-true}
 
 {
   echo "download buildah in https://github.com/labring/cluster-image/releases/download/depend/buildah.linux.amd64"
