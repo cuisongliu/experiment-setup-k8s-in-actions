@@ -97,9 +97,8 @@ install_by_build() {
     fi
     BINS=sealos make build
     BINS=sealctl make build
-    ls -l bin
-    ls -l bin/linux_amd64
-    sudo chmod a+x bin/linux_${ARCH}/* && sudo mv bin/linux_${ARCH}/* /usr/bin
+    sudo chmod a+x bin/linux_${ARCH}/{sealos,sealctl}
+    sudo mv bin/linux_${ARCH}/{sealos,sealctl} /usr/bin
 }
 
 {
