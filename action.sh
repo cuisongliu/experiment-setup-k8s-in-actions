@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 set -o noglob
 
 readonly SEALOS_CMD=${cmd:-install}
@@ -97,6 +97,8 @@ install_by_build() {
     fi
     BINS=sealos make build
     BINS=sealctl make build
+    ls -l bin
+    ls -l bin/linux_amd64
     sudo chmod a+x bin/linux_${ARCH}/* && sudo mv bin/linux_${ARCH}/* /usr/bin
 }
 
