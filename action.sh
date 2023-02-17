@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -eu
+set -e
+set -o noglob
 
 readonly SEALOS_CMD=${cmd:-install}
 
