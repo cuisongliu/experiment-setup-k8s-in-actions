@@ -28,7 +28,7 @@ inputs:
 
   goAddr:
     description: 'go download addr'
-    default: "https://go.dev/dl/go1.20.linux-amd64.tar.gz"
+    default: ""
 
   pruneCRI:
     description: 'remove cri pkg'
