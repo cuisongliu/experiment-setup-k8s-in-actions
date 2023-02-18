@@ -65,7 +65,7 @@ install_buildah() {
 }
 
 prune_cri() {
-  if [[ $PRUNE_CRI == 'true' ]]; then
+  if [[ $PRUNE_CRI == 'true' && $SEALOS_CMD !='prune' ]]; then
       {
         info "prune cri doing...."
         sudo apt-get remove -y docker docker-engine docker.io containerd runc > /dev/null
@@ -83,6 +83,7 @@ install_by_version() {
 }
 
 install_by_build() {
+   info "install sealos in main code...."
    {
       wget -qO goNew.tgz ${INSTALL_GO_ADDR} && tar -zxf goNew.tgz && rm -rf goNew.tgz
       mkdir -p /tmp/golang && mv go /tmp/golang
@@ -101,9 +102,20 @@ install_by_build() {
     sudo mv bin/linux_${ARCH}/{sealos,sealctl} /usr/bin
 }
 
+prune_all() {
+  info "prune all doing...."
+  dpkg-query --search "$(command -v containerd)" "$(command -v docker)"
+  sudo apt-get remove -y moby-buildx moby-cli moby-compose moby-containerd moby-engine &>/dev/null
+  CRI_TYPE=containerd
+  sudo systemctl unmask "${CRI_TYPE//-/}" || true
+  CRI_TYPE=docker
+  sudo systemctl unmask "${CRI_TYPE//-/}" || true
+  sudo mkdir -p /sys/fs/cgroup/systemd
+  sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd || true
+}
+
 {
   setup_verify_arch
-  setup_go_addr
   install_buildah
   prune_cri
   case $SEALOS_CMD in
@@ -111,7 +123,11 @@ install_by_build() {
   	  install_by_version
   	  ;;
   	install-dev)
+  	  setup_go_addr
   	  install_by_build
+      ;;
+    prune)
+      prune_all
       ;;
     *)
       echo "unknown cmd"

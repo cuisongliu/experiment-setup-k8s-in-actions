@@ -32,7 +32,8 @@ jobs:
 
       - name: Install sealos
         run: |
-          sudo cmd=install-dev  bash action.sh
+          sudo cmd=install  bash action.sh
+          sudo cmd=prune  bash action.sh
 
       - name: Install sealos version
         run: |
