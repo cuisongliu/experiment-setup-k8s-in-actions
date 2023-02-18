@@ -65,7 +65,7 @@ install_buildah() {
 }
 
 prune_cri() {
-  if [[ $PRUNE_CRI == 'true' && $SEALOS_CMD !='prune' ]]; then
+  if [[ $PRUNE_CRI == 'true' && $SEALOS_CMD != 'prune' ]]; then
       {
         info "prune cri doing...."
         sudo apt-get remove -y docker docker-engine docker.io containerd runc > /dev/null
