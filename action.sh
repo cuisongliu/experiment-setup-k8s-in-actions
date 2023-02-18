@@ -104,7 +104,7 @@ install_by_build() {
 
 prune_all() {
   info "prune all doing...."
-  dpkg-query --search "$(command -v containerd)" "$(command -v docker)"
+  dpkg-query --search "$(command -v containerd)" "$(command -v docker)" || true
   sudo apt-get remove -y moby-buildx moby-cli moby-compose moby-containerd moby-engine &>/dev/null
   CRI_TYPE=containerd
   sudo systemctl unmask "${CRI_TYPE//-/}" || true
